@@ -3,4 +3,4 @@ Obligatorio de Base de Datos III - 2021
 Equipo: Ivan Larrosa, Jona Diaz, Juan Pablo Perdomo, Sophia Jasidakis y Alvaro Loustau
 
 Prueba
-Juannn
+Juannn Prueba de que si comiteo y todo, manga de gatos

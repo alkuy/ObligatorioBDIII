@@ -60,6 +60,8 @@ public class dbCreation {
 			stmt.close();
 			
 			con.close();
+			
+			System.out.println("La base de datos ha sido creada exitosamente");
 		}
 		catch (SQLException e) 
 		{

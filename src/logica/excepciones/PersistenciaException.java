@@ -1,4 +1,4 @@
-package Excepciones;
+package logica.excepciones;
 
 public class PersistenciaException extends Exception{
 	// Codigo generado automaticamente

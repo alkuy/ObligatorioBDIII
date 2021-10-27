@@ -2,6 +2,8 @@ package logica;
 
 import java.sql.SQLException;
 
+import logica.excepciones.PersistenciaException;
+import logica.valueObjects.VORevision;
 import persistencia.daos.DAORevisiones;
 
 public class Folio {
@@ -31,7 +33,7 @@ public class Folio {
 		return paginas;
 	}
 	
-	public boolean tieneRevision(int numR) throws SQLException
+	public boolean tieneRevision(int numR) throws SQLException, PersistenciaException
 	{
 		return revisiones.member(codigo, numR);
 	}
@@ -41,7 +43,25 @@ public class Folio {
 		return 0;
 	}
 	
+	public void addRevision (Revision rev)
+	{
+		
+	}
 	
+	public Revision obtenerRevision (int numR)
+	{
+		Revision rev;
+		return rev = new Revision(1,"a","a");
+	}
 	
-
+	public VORevision listarRevision() 
+	{
+		VORevision VOr = new VORevision(2, "a", "a");
+		return VOr;
+	}
+	
+	public void borrarRevision ()
+	{
+		
+	}
 }

@@ -13,6 +13,8 @@ import java.util.Properties;
 
 import logica.excepciones.FolioException;
 import logica.excepciones.PersistenciaException;
+import logica.interfaces.IConexion;
+import logica.interfaces.IPoolConexiones;
 import logica.valueObjects.VOFolio;
 
 public class Fachada extends UnicastRemoteObject implements IFachada{
@@ -23,10 +25,12 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 	//private static Fachada fachada;
 	private Connection con;
 	private DAOFolio daoF = new DAOFolio();
+	private IPoolConexiones iPool;
 	private static Fachada fachada;
 	
 	//Constructor de la clase
-	public Fachada() throws RemoteException
+	@SuppressWarnings("deprecation")
+	public Fachada()
 	{
 		try {
 			Properties p = new Properties();
@@ -34,17 +38,10 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 			String nomArch = "src/Config/Config.properties";
 			p.load (new FileInputStream (nomArch));
 			
-			String driver = p.getProperty("driver");
-			String url = p.getProperty("url");
-			String usuario = p.getProperty("usuario");
-			String password = p.getProperty("password");
-			Class.forName(driver);
-						
-			// Creo la conexion
-			con = DriverManager.getConnection(url, usuario, password);			
+			String poolConcreto = p.getProperty("pool");
+			iPool = (IPoolConexiones) Class.forName(poolConcreto).newInstance();
+								
 		}catch(RemoteException e){
-			e.printStackTrace();
-		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -64,15 +61,18 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 	}
 	
 	//Agrega un nuevo folio al sistema, chequeando que no existiera
-	public void AgregarFolio(VOFolio voF) throws RemoteException, PersistenciaException, FolioException{
+	public void AgregarFolio(VOFolio voF) throws RemoteException, PersistenciaException, FolioException
+	{
+		IConexion iCon = null;
 		try {
+			iCon = iPool.obtenerConexion(true);
 			String codF = voF.getCodigo();
 			// Chequeamos que no exista el folio
-			boolean existe = daoF.member(con, codF);
+			boolean existe = daoF.member(iCon, codF);
 			
 			// Si no existe lo insertamos
 			if (existe == false) {
-				abd.insertarFolio(con, voF);
+				daoF.insertarFolio(iCon, voF);
 			}else {
 				throw new FolioException("Ya existe un folio con ese codigo.");
 			}

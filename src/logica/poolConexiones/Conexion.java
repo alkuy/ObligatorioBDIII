@@ -1,4 +1,4 @@
-package logica;
+package logica.poolConexiones;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;

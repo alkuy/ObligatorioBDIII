@@ -1,6 +1,7 @@
 package persistencia.daos;
 import logica.Folio;
 import logica.Revision;
+import logica.excepciones.PersistenciaException;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
 import logica.valueObjects.VORevision;
@@ -18,8 +19,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
-
-import Excepciones.PersistenciaException;
 
 public class DAOFolios {
 
@@ -169,7 +168,7 @@ public class DAOFolios {
 			return arre;
 		}
 		
-		//Metodo que devuelve si hay folios o si esta vacío
+		//Metodo que devuelve si hay folios o si esta vacï¿½o
 		public boolean esVacio (String codF)  throws PersistenciaException {
 			boolean vacia = true;
 			
@@ -195,7 +194,7 @@ public class DAOFolios {
 		}
 
 		
-		// Metodo para devolver folio más revisado
+		// Metodo para devolver folio mï¿½s revisado
 		public VOFolioMaxRev folioMasRevisado () {
 			VOFolioMaxRev FmaxRev = null;
 			try {

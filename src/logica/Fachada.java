@@ -15,26 +15,27 @@ import logica.excepciones.FolioException;
 import logica.excepciones.PersistenciaException;
 import logica.excepciones.RevisionException;
 import logica.interfaces.IConexion;
+import logica.interfaces.IFachada;
 import logica.interfaces.IPoolConexiones;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
 import logica.valueObjects.VORevision;
+import persistencia.daos.DAOFolios;
 import persistencia.daos.DAORevisiones;
 
-public class Fachada extends UnicastRemoteObject implements IFachada{
+public class Fachada extends UnicastRemoteObject implements IFachada
+{
 	
 	private static final long serialVersionUID = 1L;
 	
 	// Atributos
-	//private static Fachada fachada;
-	private Connection con;
-	private DAOFolio daoF = new DAOFolio();
+	private DAOFolios daoF = new DAOFolios();
 	private IPoolConexiones iPool;
 	private static Fachada fachada;
 	
 	//Constructor de la clase
 	@SuppressWarnings("deprecation")
-	public Fachada()
+	public Fachada() throws RemoteException
 	{
 		try {
 			Properties p = new Properties();
@@ -45,13 +46,16 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 			String poolConcreto = p.getProperty("pool");
 			iPool = (IPoolConexiones) Class.forName(poolConcreto).newInstance();
 								
-		}catch(RemoteException e){
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
 			e.printStackTrace();
 		}
 	}
@@ -77,7 +81,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 			// Si no existe lo insertamos
 			if (existe == false) 
 			{
-				daoF.insertarFolio(iCon, voF);
+				daoF.insert(iCon, voF);
 				iPool.liberarConexion(iCon, true);
 			}
 			else 
@@ -99,7 +103,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 			iCon = iPool.obtenerConexion(true);
 			
 			// Chequeamos que exista el folio
-			boolean existe = daoF.ExisteFolio(iCon, codF);
+			boolean existe = daoF.find(iCon, codF);
 			
 			// Si existe el folio, se le agrega la revision
 			if (existe == true) 
@@ -107,7 +111,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 				
 				int num = daoF.find(iCon, codF).NumeroUltimaRevision();
 				VORevision voR = new VORevision(num, codF, desc);
-				daoF.find(iCon, codF).addRevision(voR);
+				daoF.find(iCon, codF).addRevisiones(voR);
 				iPool.liberarConexion(iCon, true);
 			}
 			else 
@@ -129,12 +133,12 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 		try {
 			iCon = iPool.obtenerConexion(true);
 			// Chequeamos que exista el folio
-			boolean existe = daoF.ExisteFolio(iCon, codF);
+			boolean existe = daoF.find(iCon, codF);
 			
 			// Si existe el folio, se le eliminan las revisiones y el folio
 			if (existe == true) 
 			{
-				daoF.EliminarFolioCascada(iCon, codF);
+				daoF.delete(iCon, codF);
 				iPool.liberarConexion(iCon, true);
 			}
 			else 
@@ -159,7 +163,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 		
 		try {
 			iCon = iPool.obtenerConexion(false);
-			existe = daoF.ExisteFolio(iCon, codF);
+			existe = daoF.find(iCon, codF);
 			
 			if (existe) 
 			{
@@ -230,11 +234,11 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 			iCon = iPool.obtenerConexion(false);
 			
 			// Chequeamos la existencia del folio
-			existe = daoF.ExisteFolio(iCon, codF);
+			existe = daoF.member(iCon, codF);
 			
 			if (existe) 
 			{
-				daoR = new DAORevisiones(codF);
+				DAORevisiones daoR = new DAORevisiones(codF);
 				lista = daoR.listarRevisiones(iCon, codF);
 				iPool.liberarConexion(iCon, true);
 			}
@@ -266,8 +270,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada{
 			
 			if (existeFolio) 
 			{
-				daoR = new DAORevisiones(codF);
-				voF = daoR.FolioMasRevisado(iCon);
+				voF = daoF.FolioMasRevisado(iCon);
 				iPool.liberarConexion(iCon, true);
 			}
 			else 

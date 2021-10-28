@@ -29,7 +29,7 @@ public class DAORevisiones {
 	}
 	
 	// Metodo que permite recibir un numero de revision y verificar si existe en la secuencia
-	public boolean member (IConexion iCon, String codF, int numR)  throws PersistenciaException {
+	public boolean ExisteRevisionFolio (IConexion iCon, String codF, int numR)  throws PersistenciaException {
 		boolean resu = false;
 		
 		try {

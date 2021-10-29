@@ -2,6 +2,8 @@ package persistencia.daos;
 import logica.Folio;
 import logica.Revision;
 import logica.excepciones.PersistenciaException;
+import logica.interfaces.IConexion;
+import logica.poolConexiones.Conexion;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
 import logica.valueObjects.VORevision;
@@ -24,45 +26,22 @@ public class DAOFolios {
 
 	// Atributos
 		private String codFolio;
-		private static Connection con;
 		private Folio folio;
 		private ConsultasFolio CF;
 		
 		public DAOFolios(){
-			try {
-				Properties p = new Properties();
-				
-				String nomArch = "src/config/Config.properties";
-				p.load (new FileInputStream (nomArch));
-				String driver = p.getProperty("driver");
-				String url = p.getProperty("url");
-				String usuario = p.getProperty("usuario");
-				String password = p.getProperty("password");
-				Class.forName(driver);
-				
-				// Creamos la conexion
-				con = DriverManager.getConnection(url, usuario, password);
-				
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			
 		}
 		
 
 		// Metodo que permite recibir codigo de folio y verificar si existe en la secuencia
-		public boolean member (String codF)  throws PersistenciaException {
+		public boolean member (IConexion iCon, String codF)  throws PersistenciaException {
 			boolean resu = false;
 			
 			try {
 				CF = new ConsultasFolio();
 				String select = CF.ExisteFolio();
-				PreparedStatement pstmt = con.prepareStatement(select);
+				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(select);
 				
 				pstmt.setString(1, codF);
 				
@@ -83,11 +62,11 @@ public class DAOFolios {
 		}
 		
 		// Metodo para insertar un folio al final de la secuencia de folios
-		public void insert (Folio fo) throws PersistenciaException {		
+		public void insert (IConexion iCon, Folio fo) throws PersistenciaException {		
 			try {
 				CF = new ConsultasFolio();
 				String insert = CF.InsertarFolio();
-				PreparedStatement pstmt = con.prepareStatement(insert);
+				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(insert);
 				pstmt.setString(1, fo.getCodigo());
 				pstmt.setString(2, fo.getCaratula());
 				pstmt.setInt(3, fo.getPaginas());
@@ -100,12 +79,12 @@ public class DAOFolios {
 		}
 		
 		//Metodo para encontrar y devolver un folio 
-		public Folio find (String codF) throws PersistenciaException {		
+		public Folio find (IConexion iCon, String codF) throws PersistenciaException {		
 			Folio fol = null;
 			try {
 				CF = new ConsultasFolio();
 				String select = CF.ExisteFolio();
-				PreparedStatement pstmt = con.prepareStatement(select);
+				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(select);
 				
 				pstmt.setString(1, codF);
 				
@@ -126,11 +105,11 @@ public class DAOFolios {
 		}
 		
 		// Metodo para eliminar un folio
-		public void delete (String codF) throws PersistenciaException {
+		public void delete (IConexion iCon, String codF) throws PersistenciaException {
 			try {
 				CF = new ConsultasFolio();
 				String insert = CF.InsertarFolio();
-				PreparedStatement pstmt = con.prepareStatement(insert);
+				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(insert);
 				pstmt.setString(1, codF);
 				pstmt.executeUpdate ();
 				pstmt.close();
@@ -140,13 +119,13 @@ public class DAOFolios {
 		}
 		
 		// Metodo para listar todos los folios almacenados
-		public ArrayList<VOFolio> listarFolios () {
+		public ArrayList<VOFolio> listarFolios (IConexion iCon) {
 			ArrayList<VOFolio> arre = new ArrayList<VOFolio>();
 			int index=0;
 			try {
 				CF = new ConsultasFolio();
 				String select = CF.ListarFolios();
-				PreparedStatement pstmt = con.prepareStatement(select);
+				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(select);
 				
 				pstmt.setString(1, "codigo");
 				pstmt.setString(2, "caratula");
@@ -169,13 +148,13 @@ public class DAOFolios {
 		}
 		
 		//Metodo que devuelve si hay folios o si esta vac�o
-		public boolean esVacio (String codF)  throws PersistenciaException {
+		public boolean esVacio (IConexion iCon, String codF)  throws PersistenciaException {
 			boolean vacia = true;
 			
 			try {
 				CF = new ConsultasFolio();
 				String select = CF.ListarFolios();
-				PreparedStatement pstmt = con.prepareStatement(select);
+				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(select);
 				
 				pstmt.setString(1, codF);
 				
@@ -195,12 +174,12 @@ public class DAOFolios {
 
 		
 		// Metodo para devolver folio m�s revisado
-		public VOFolioMaxRev folioMasRevisado () {
+		public VOFolioMaxRev folioMasRevisado (IConexion iCon) {
 			VOFolioMaxRev FmaxRev = null;
 			try {
 				CF = new ConsultasFolio();
 				String select = CF.FolioMasRevisado();
-				PreparedStatement pstmt = con.prepareStatement(select);
+				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(select);
 						
 				ResultSet rs = pstmt.executeQuery();
  

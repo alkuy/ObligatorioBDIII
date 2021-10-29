@@ -81,7 +81,8 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 			// Si no existe lo insertamos
 			if (existe == false) 
 			{
-				daoF.insert(iCon, voF);
+				Folio Fol = new Folio(voF.getCodigo(), voF.getCaratula(), voF.getPaginas());
+				daoF.insert(iCon, Fol);
 				iPool.liberarConexion(iCon, true);
 			}
 			else 
@@ -103,19 +104,15 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 			iCon = iPool.obtenerConexion(true);
 			
 			// Chequeamos que exista el folio
-			boolean existe = daoF.find(iCon, codF);
+			Folio Fol = daoF.find(iCon, codF);
 			
 			// Si existe el folio, se le agrega la revision
-			if (existe == true) 
-			{	
-				
+			if (Fol.getCodigo() != null) {
 				int num = daoF.find(iCon, codF).NumeroUltimaRevision();
 				VORevision voR = new VORevision(num, codF, desc);
 				daoF.find(iCon, codF).addRevisiones(voR);
 				iPool.liberarConexion(iCon, true);
-			}
-			else 
-			{
+			} else {
 				iPool.liberarConexion(iCon, false);
 				throw new RevisionException("No existe un folio con ese codigo.");
 			}

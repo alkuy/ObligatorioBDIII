@@ -136,6 +136,7 @@ public class DAOFolios {
 				while (rs.next()) {
 						 VOFolio vo= new VOFolio(rs.getString("codigo"), rs.getString("caratula"), rs.getInt("paginas"));
 						 arre.add(index, vo);
+						 index++;
 				}
 		
 				rs.close();

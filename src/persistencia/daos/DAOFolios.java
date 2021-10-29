@@ -119,6 +119,7 @@ public class DAOFolios {
 		}
 		
 		// Metodo para listar todos los folios almacenados
+		//Precondicion no debe estar vaia la tabla de folios
 		public ArrayList<VOFolio> listarFolios (IConexion iCon) {
 			ArrayList<VOFolio> arre = new ArrayList<VOFolio>();
 			int index=0;

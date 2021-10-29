@@ -130,7 +130,7 @@ public class DAOFolios {
 				
 				pstmt.setString(1, "codigo");
 				pstmt.setString(2, "caratula");
-				pstmt.setString(3, "codi");
+				pstmt.setString(3, "paginas");
 				
 				ResultSet rs = pstmt.executeQuery();
  

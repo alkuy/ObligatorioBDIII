@@ -1,6 +1,7 @@
 package logica;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import logica.excepciones.PersistenciaException;
 import logica.interfaces.IConexion;
@@ -39,30 +40,33 @@ public class Folio {
 		return revisiones.ExisteRevisionFolio(iCon, codigo, numR);
 	}
 	
-	public int cantidadRevisiones ()
+	public int cantidadRevisiones (IConexion iCon) throws PersistenciaException
 	{
-		return 0;
+		return revisiones.largo(iCon);
 	}
 	
-	public void addRevision (Revision rev)
+	public void addRevision (IConexion iCon, Revision rev) throws PersistenciaException
 	{
-		
+		revisiones.insback(iCon, rev);
 	}
 	
-	public Revision obtenerRevision (int numR)
+	public Revision obtenerRevision (IConexion iCon, int numR) throws PersistenciaException
 	{
-		Revision rev;
-		return rev = new Revision(1,"a","a");
+		return revisiones.kesimo(iCon, numR);
 	}
 	
-	public VORevision listarRevision() 
+	public ArrayList<VORevision> listarRevision(IConexion iCon) throws PersistenciaException 
 	{
-		VORevision VOr = new VORevision(2, "a", "a");
-		return VOr;
+		return revisiones.listarRevisiones(iCon);
 	}
 	
-	public void borrarRevision ()
+	public void borrarRevision (IConexion iCon) throws PersistenciaException
 	{
-		
+		revisiones.borrarRevisiones(iCon);
+	}
+	
+	public int NumeroUltimaRevision(IConexion iCon) throws PersistenciaException
+	{
+		return revisiones.largo(iCon);
 	}
 }

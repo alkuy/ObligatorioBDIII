@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -68,6 +69,9 @@ public class ControladorVentanaFolios {
 				JOptionPane.showMessageDialog(null, e.getMensaje());
 			}catch(RemoteException e) {
 				JOptionPane.showMessageDialog(null, e.getMessage());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -87,6 +91,9 @@ public class ControladorVentanaFolios {
 			} catch (RevisionException e) {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null, e.getMensaje());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -104,6 +111,9 @@ public class ControladorVentanaFolios {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (FolioException e) {
 				JOptionPane.showMessageDialog(null, e.getMensaje());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			
 			return vo;
@@ -119,6 +129,9 @@ public class ControladorVentanaFolios {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (FolioException e) {
 				JOptionPane.showMessageDialog(null, e.getMensaje());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			return lista;
 		}

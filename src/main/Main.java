@@ -36,7 +36,7 @@ public class Main {
 			} catch (PersistenciaException e) {
 				JOptionPane.showMessageDialog(null, "Ocurrio un error al iniciar el servidor.");
 			}
-			String ruta = "//" + ip + ":" + port + "/fachada";
+			String ruta = "//" + ip + ":" + port + "/logica";
 			
 			Naming.rebind(ruta, fachada);
 			JOptionPane.showMessageDialog(null, "Servidor iniciado");

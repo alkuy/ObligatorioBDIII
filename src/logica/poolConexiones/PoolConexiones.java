@@ -11,8 +11,10 @@ import java.util.Properties;
 import java.util.concurrent.locks.Condition;
 
 import logica.interfaces.IConexion;
+import logica.interfaces.IFachada;
+import logica.interfaces.IPoolConexiones;
 
-public class PoolConexiones {
+public class PoolConexiones implements IPoolConexiones {
 	
 	private String driver;
 	private String url;
@@ -55,7 +57,7 @@ public class PoolConexiones {
 	
 	//Solicita una conexión al pool. En caso de que todas estén actualmente en
 	//uso, bloqueará al usuario hasta que otro usuario libere alguna.
-	public IConexion ObtenerConexion (boolean modifica) throws RemoteException
+	public IConexion obtenerConexion (boolean modifica) throws RemoteException
 	{
 		Conexion conect = null;
 		if(creadas < tam)
@@ -127,7 +129,7 @@ public class PoolConexiones {
 	
 	//Devuelve una conexión al pool y avisa a posibles usuarios bloqueados. Si
 	//ok vale true, hará commit al devolverla, sino hará rollback.
-	void liberarConexion (IConexion con, boolean ok) throws SQLException
+	public void liberarConexion (IConexion con, boolean ok) throws SQLException
 	{
 		if(ok)
 			((Conexion) con).getConnection().commit(); //Si la transaccion quedo correctamente realizada se hace commit

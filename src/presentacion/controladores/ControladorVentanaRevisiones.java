@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -42,6 +43,9 @@ public class ControladorVentanaRevisiones {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (RevisionException e) {
 				JOptionPane.showMessageDialog(null, e.getMensaje());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 		
@@ -72,6 +76,9 @@ public class ControladorVentanaRevisiones {
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (FolioException e) {
 				JOptionPane.showMessageDialog(null, e.getMensaje());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 			return lista;
 		}

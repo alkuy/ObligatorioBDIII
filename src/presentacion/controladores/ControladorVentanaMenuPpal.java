@@ -37,6 +37,7 @@ public class ControladorVentanaMenuPpal {
 				this.fachada = (IFachada) Naming.lookup(ruta);
 				
 			} catch (MalformedURLException | RemoteException | NotBoundException | FileNotFoundException e) {
+				e.printStackTrace();
 				throw new PersistenciaException("Ocurrio un error de comunicacion con el servidor, contacte con el administrador.");
 			} catch (IOException a) {
 				throw new PersistenciaException("Ocurrio un error no especificado, contacte con el administrador.");

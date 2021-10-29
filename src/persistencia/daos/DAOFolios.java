@@ -19,6 +19,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -150,24 +151,22 @@ public class DAOFolios {
 		}
 		
 		//Metodo que devuelve si hay folios o si esta vac�o
-		public boolean esVacio (IConexion iCon, String codF)  throws PersistenciaException {
+		public boolean esVacio (IConexion iCon)  throws PersistenciaException {
 			boolean vacia = true;
 			
 			try {
 				CF = new ConsultasFolio();
 				String select = CF.ListarFolios();
-				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(select);
+				Statement stmt = ((Conexion) iCon).getConnection().createStatement();
 				
-				pstmt.setString(1, codF);
-				
-				ResultSet rs = pstmt.executeQuery();
+				ResultSet rs = stmt.executeQuery(select);
 
 				if (rs.next()) {
 					vacia = false;
 				}
 		
 				rs.close();
-				pstmt.close();
+				stmt.close();
 			}catch(SQLException e){
 				
 			}
@@ -196,6 +195,8 @@ public class DAOFolios {
 			}
 			return FmaxRev;
 		}
+		
+		
 }
 
 	

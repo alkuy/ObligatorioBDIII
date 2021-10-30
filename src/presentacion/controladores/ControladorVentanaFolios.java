@@ -36,10 +36,11 @@ public class ControladorVentanaFolios {
 			String nomArch = "src/Config/Config.properties";
 			try {
 				p.load (new FileInputStream (nomArch));
-				String port = p.getProperty("portServer");
+				String puerto = p.getProperty("portServer");
 				String ip = p.getProperty("ipServer");
+				String nomObjeto = p.getProperty("objetoRemoto");
 				
-				String ruta = "//" + ip + ":" + port + "/fachada";
+				String ruta = "//" + ip + ":" + puerto + "/" + nomObjeto;
 				
 				fachada = (IFachada) Naming.lookup(ruta);
 			} catch (FileNotFoundException e) {

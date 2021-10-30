@@ -71,46 +71,60 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	//Agrega un nuevo folio al sistema, chequeando que no existiera
 	public void AgregarFolio(VOFolio voF) throws RemoteException, PersistenciaException, FolioException, SQLException
 	{
-		IConexion iCon = null;
-		iCon = iPool.obtenerConexion(true);
-		String codF = voF.getCodigo();
-		// Chequeamos que no exista el folio
-		boolean existe = daoF.member(iCon, codF);
-		
-		// Si no existe lo insertamos
-		if (existe == false) 
+		try 
 		{
-			Folio Fol = new Folio(voF.getCodigo(), voF.getCaratula(), voF.getPaginas());
-			daoF.insert(iCon, Fol);
-			iPool.liberarConexion(iCon, true);
+			IConexion iCon = null;
+			iCon = iPool.obtenerConexion(true);
+			String codF = voF.getCodigo();
+			// Chequeamos que no exista el folio
+			boolean existe = daoF.member(iCon, codF);
+			
+			// Si no existe lo insertamos
+			if (existe == false) 
+			{
+				Folio Fol = new Folio(voF.getCodigo(), voF.getCaratula(), voF.getPaginas());
+				daoF.insert(iCon, Fol);
+				iPool.liberarConexion(iCon, true);
+			}
+			else 
+			{
+				iPool.liberarConexion(iCon, false);
+				throw new FolioException("Ya existe un folio con ese codigo.");
+			}
 		}
-		else 
+		catch (SQLException e) 
 		{
-			iPool.liberarConexion(iCon, false);
-			throw new FolioException("Ya existe un folio con ese codigo.");
+			throw new PersistenciaException("Ocurrio un error al acceder a la base de datos.");
 		}
 	}
 	
 	// agrega una nueva revisión a un folio del sistema, chequeando que el folio que le corresponde esté registrado
 	public void AgregarRevision(String codF, String desc) throws RemoteException, PersistenciaException, RevisionException, SQLException{
 		IConexion iCon = null;
-		iCon = iPool.obtenerConexion(true);
-		
-		// Chequeamos que exista el folio
-		Folio Fol = daoF.find(iCon, codF);
-		
-		// Si existe el folio, se le agrega la revision
-		if (Fol.getCodigo() != null) 
+		try 
 		{
-			int num = daoF.find(iCon, codF).NumeroUltimaRevision(iCon);
-			Revision rev = new Revision(num, codF, desc);
-			daoF.find(iCon, codF).addRevision(iCon,rev);
-			iPool.liberarConexion(iCon, true);
-		} 
-		else 
+			iCon = iPool.obtenerConexion(true);
+			
+			// Chequeamos que exista el folio
+			Folio Fol = daoF.find(iCon, codF);
+			
+			// Si existe el folio, se le agrega la revision
+			if (Fol.getCodigo() != null) 
+			{
+				int num = daoF.find(iCon, codF).NumeroUltimaRevision(iCon);
+				Revision rev = new Revision(num, codF, desc);
+				daoF.find(iCon, codF).addRevision(iCon,rev);
+				iPool.liberarConexion(iCon, true);
+			} 
+			else 
+			{
+				iPool.liberarConexion(iCon, false);
+				throw new RevisionException("No existe un folio con ese codigo.");
+			}
+		}
+		catch (SQLException e) 
 		{
-			iPool.liberarConexion(iCon, false);
-			throw new RevisionException("No existe un folio con ese codigo.");
+			throw new PersistenciaException("Ocurrio un error al acceder a la base de datos.");
 		}
 	}
 	
@@ -118,20 +132,28 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	public void BorrarFolioRevisiones(String codF) throws RemoteException, PersistenciaException, RevisionException, SQLException{
 		
 		IConexion iCon = null;
-		iCon = iPool.obtenerConexion(true);
-		// Chequeamos que exista el folio
-		boolean existe = daoF.member(iCon, codF);
-		
-		// Si existe el folio, se le eliminan las revisiones y el folio
-		if (existe == true) 
+		try 
 		{
-			daoF.delete(iCon, codF);
-			iPool.liberarConexion(iCon, true);
+			iCon = iPool.obtenerConexion(true);
+			
+			// Chequeamos que exista el folio
+			boolean existe = daoF.member(iCon, codF);
+			
+			// Si existe el folio, se le eliminan las revisiones y el folio
+			if (existe == true) 
+			{
+				daoF.delete(iCon, codF);
+				iPool.liberarConexion(iCon, true);
+			}
+			else 
+			{
+				iPool.liberarConexion(iCon, false);
+				throw new RevisionException("No existe un folio con ese codigo.");
+			}
 		}
-		else 
+		catch (SQLException e) 
 		{
-			iPool.liberarConexion(iCon, false);
-			throw new RevisionException("No existe un folio con ese codigo.");
+			throw new PersistenciaException("Ocurrio un error al acceder a la base de datos.");
 		}
 	}
 	
@@ -181,19 +203,25 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 		IConexion iCon = null;
 		ArrayList<VOFolio> lista = new ArrayList<VOFolio>();
 		boolean existeFolio = false;
-		
-		iCon = iPool.obtenerConexion(false);
-		existeFolio = daoF.esVacio(iCon);
-		
-		if (existeFolio) 
-		{
-			lista = daoF.listarFolios(iCon);
-			iPool.liberarConexion(iCon, true);
+		try 
+			{
+			iCon = iPool.obtenerConexion(false);
+			existeFolio = daoF.esVacio(iCon);
+			
+			if (existeFolio) 
+			{
+				lista = daoF.listarFolios(iCon);
+				iPool.liberarConexion(iCon, true);
+			}
+			else 
+			{
+				iPool.liberarConexion(iCon, false);
+				throw new FolioException("No existe ningun folio para listar.");
+			}
 		}
-		else 
+		catch (SQLException e) 
 		{
-			iPool.liberarConexion(iCon, false);
-			throw new FolioException("No existe ningun folio para listar.");
+			throw new PersistenciaException("Ocurrio un error al acceder a la base de datos.");
 		}
 		
 		return lista;
@@ -205,22 +233,28 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 		ArrayList<VORevision> lista = new ArrayList<VORevision>();
 		boolean existe = false;
 		IConexion iCon = null;
-		
-		iCon = iPool.obtenerConexion(false);
-		
-		// Chequeamos la existencia del folio
-		existe = daoF.member(iCon, codF);
-		
-		if (existe) 
+		try 
 		{
-			DAORevisiones daoR = new DAORevisiones(codF);
-			lista = daoR.listarRevisiones(iCon);
-			iPool.liberarConexion(iCon, true);
+			iCon = iPool.obtenerConexion(false);
+			
+			// Chequeamos la existencia del folio
+			existe = daoF.member(iCon, codF);
+			
+			if (existe) 
+			{
+				DAORevisiones daoR = new DAORevisiones(codF);
+				lista = daoR.listarRevisiones(iCon);
+				iPool.liberarConexion(iCon, true);
+			}
+			else 
+			{
+				iPool.liberarConexion(iCon, false);
+				throw new FolioException("No existe un folio con ese codigo.");
+			}
 		}
-		else 
+		catch (SQLException e) 
 		{
-			iPool.liberarConexion(iCon, false);
-			throw new FolioException("No existe un folio con ese codigo.");
+			throw new PersistenciaException("Ocurrio un error al acceder a la base de datos.");
 		}
 		
 		return lista;
@@ -232,20 +266,26 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 		VOFolioMaxRev voF = null;
 		IConexion iCon = null;
 		
-		boolean existeFolio = false;
-		
-		iCon = iPool.obtenerConexion(false);
-		existeFolio = daoF.esVacio(iCon);
-		
-		if (existeFolio) 
+		boolean noExisteFolio = true;
+		try 
 		{
-			voF = daoF.folioMasRevisado(iCon);
-			iPool.liberarConexion(iCon, true);
+			iCon = iPool.obtenerConexion(false);
+			noExisteFolio = daoF.esVacio(iCon);
+			
+			if (!noExisteFolio) 
+			{
+				voF = daoF.folioMasRevisado(iCon);
+				iPool.liberarConexion(iCon, true);
+			}
+			else 
+			{
+				iPool.liberarConexion(iCon, false);
+				throw new FolioException("No existe ningun folio para listar.");
+			}
 		}
-		else 
+		catch (SQLException e) 
 		{
-			iPool.liberarConexion(iCon, false);
-			throw new FolioException("No existe ningun folio para listar.");
+			throw new PersistenciaException("Ocurrio un error al acceder a la base de datos.");
 		}
 		return voF;
 	}

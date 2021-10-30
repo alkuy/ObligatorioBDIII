@@ -43,7 +43,7 @@ public class DAORevisiones {
 			rs.close();
 			pstmt.close();
 		}catch(SQLException e){
-			throw new PersistenciaException("Ocurrió un error al intentar verificar la existencia de la revisión.");
+			throw new PersistenciaException("Ocurriï¿½ un error al intentar verificar la existencia de la revisiï¿½n.");
 		}
 		return resu;
 	}
@@ -62,7 +62,7 @@ public class DAORevisiones {
 			pstmt.executeUpdate();
 			pstmt.close();
 		}catch (SQLException e){
-			throw new PersistenciaException("Ocurrió un error al insertar la revisión.");
+			throw new PersistenciaException("Ocurriï¿½ un error al insertar la revisiï¿½n.");
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class DAORevisiones {
 				cant++;
 			}
 		} catch (SQLException e) {
-			throw new PersistenciaException("Ocurrió un error al insertar la revisión.");
+			throw new PersistenciaException("Ocurriï¿½ un error al insertar la revisiï¿½n.");
 			// e.printStackTrace();
 		}
 		return cant;
@@ -113,7 +113,7 @@ public class DAORevisiones {
 			revision = new Revision(Numero, codFolio, desc);
 			
 		} catch (SQLException e) {
-			throw new PersistenciaException("Ocurrió un error al obtener la revisión.");
+			throw new PersistenciaException("Ocurriï¿½ un error al obtener la revisiï¿½n.");
 			// e.printStackTrace();
 		}
 	
@@ -121,7 +121,7 @@ public class DAORevisiones {
 	}
 	
 	// Metodo para obtener una lista con todas las revisiones
-	// Precondición: Hay al menos 1 revision en el folio
+	// Precondiciï¿½n: Hay al menos 1 revision en el folio
 	public ArrayList<VORevision> listarRevisiones (IConexion iCon) throws PersistenciaException { 
 		ArrayList<VORevision> lista = new ArrayList<VORevision>();
 
@@ -135,7 +135,7 @@ public class DAORevisiones {
 			ResultSet rs = pstmt.executeQuery();
 	
 			while (rs.next()) {
-				if(rs.getString("codigo") == codFolio) {
+				if(codFolio.equals(rs.getString("codigo"))) {
 					VORevision vo = new VORevision(rs.getInt("numero"), rs.getString("descripcion"), codFolio);
 					lista.add(vo);
 				}
@@ -144,7 +144,7 @@ public class DAORevisiones {
 			rs.close();
 			pstmt.close();
 		}catch(SQLException e){
-			throw new PersistenciaException("Ocurrió un error al obtener las revisiones.");
+			throw new PersistenciaException("Ocurriï¿½ un error al obtener las revisiones.");
 			// e.printStackTrace();
 		}
 		return lista;
@@ -162,7 +162,7 @@ public class DAORevisiones {
 
 			pstmt.close();
 		}catch(SQLException e){
-			throw new PersistenciaException("Ocurrió un error al borrar las revisiones del folio.");
+			throw new PersistenciaException("Ocurriï¿½ un error al borrar las revisiones del folio.");
 			// e.printStackTrace();
 		}
 	}

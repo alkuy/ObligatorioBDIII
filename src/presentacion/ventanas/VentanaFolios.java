@@ -194,9 +194,9 @@ public class VentanaFolios {
 
 				// Llamo al controlador de agregar vianda con los datos obtenidos de la ventana
 				VOFolioMaxRev vo = controlador.FolioMasRevisado();
-				//lblpaginasMasRevisado = vo.getPaginas();
-				//lblcaratulaMasRevisado = vo.getCaratula();
-				//lblcodigoMasRevisado = vo.getCodigo();
+				lblpaginasMasRevisado.setText(String.valueOf(vo.getPaginas()));
+				lblcaratulaMasRevisado.setText(vo.getCaratula());
+				lblcodigoMasRevisado.setText(vo.getCodigo());
 				//lblCantMasRevisado = vo.getCantRevisiones();
 			}
 		});
@@ -223,13 +223,13 @@ public class VentanaFolios {
 		btnBorrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// Validaciones previas al obtener los datos:
-				if(txtCodigo.getText().isEmpty()) {
+				if(txtCodigoBorrar.getText().isEmpty()) {
 					// Si los campos no estan cargados despliego este mensaje en pantalla
 					JOptionPane.showMessageDialog(null, "Debe ingresar un codigo de folio antes borrarlo.");
 				}else{
 					String cod = txtCodigoBorrar.getText();
 								
-					// Llamo al controlador de agregar vianda con los datos obtenidos de la ventana
+					// Llamo al controlador borrar folio con los datos obtenidos de la ventana
 					controlador.BorrarFolio(cod);
 				}
 			}

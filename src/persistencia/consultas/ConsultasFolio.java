@@ -26,6 +26,6 @@ public class ConsultasFolio {
 	
 	// Consulta auxiliar para chequear que un folio este registrado
 	public String ExisteFolio() {
-		return "Select * from Folios where codigo = (?);";
+		return "Select * from folios where codigo = (?);";
 	}
 }

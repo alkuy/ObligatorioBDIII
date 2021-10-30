@@ -3,7 +3,7 @@
 Equipo: Ivan Larrosa, Jona Diaz, Juan Pablo Perdomo, Sophia Jasidakis y Alvaro Loustau
 
 1. Configuración para el properties.config:
-    - url = jdbc:mysql://localhost:3306/
+    - url = jdbc:mysql://localhost:3306/foliosrev
     - usuario = [Aqui va el usuario para la BD]
     - password = [La contraseña de conexiòn a la BD]
     - pool = logica.poolConexiones.PoolConexiones

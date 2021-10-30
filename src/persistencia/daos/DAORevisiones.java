@@ -85,7 +85,7 @@ public class DAORevisiones {
 				cant++;
 			}
 		} catch (SQLException e) {
-			throw new PersistenciaException("Ocurriï¿½ un error al insertar la revisiï¿½n.");
+			throw new PersistenciaException("Ocurrió un error al obtener la cantidad de revisiones.");
 			// e.printStackTrace();
 		}
 		return cant;

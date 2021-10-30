@@ -5,8 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
@@ -34,7 +32,6 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	private static Fachada fachada;
 	
 	//Constructor de la clase
-	@SuppressWarnings("deprecation")
 	public Fachada() throws RemoteException
 	{
 		try {
@@ -69,7 +66,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	}
 	
 	//Agrega un nuevo folio al sistema, chequeando que no existiera
-	public void AgregarFolio(VOFolio voF) throws RemoteException, PersistenciaException, FolioException, SQLException
+	public void AgregarFolio(VOFolio voF) throws RemoteException, PersistenciaException, FolioException
 	{
 		try 
 		{
@@ -99,7 +96,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	}
 	
 	// agrega una nueva revisión a un folio del sistema, chequeando que el folio que le corresponde esté registrado
-	public void AgregarRevision(String codF, String desc) throws RemoteException, PersistenciaException, RevisionException, SQLException{
+	public void AgregarRevision(String codF, String desc) throws RemoteException, PersistenciaException, RevisionException{
 		IConexion iCon = null;
 		try 
 		{
@@ -129,7 +126,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	}
 	
 	// elimina del sistema al folio con el código ingresado, y también elimina todas sus revisiones, chequeando que el folio con ese código esté registrado
-	public void BorrarFolioRevisiones(String codF) throws RemoteException, PersistenciaException, RevisionException, SQLException{
+	public void BorrarFolioRevisiones(String codF) throws RemoteException, PersistenciaException, RevisionException{
 		
 		IConexion iCon = null;
 		try 
@@ -198,7 +195,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	}
 	
 	// devuelve un listado de todos los folios registrados, ordenado por código
-	public ArrayList<VOFolio> ListarFolios() throws RemoteException, PersistenciaException, FolioException, SQLException
+	public ArrayList<VOFolio> ListarFolios() throws RemoteException, PersistenciaException, FolioException
 	{
 		IConexion iCon = null;
 		ArrayList<VOFolio> lista = new ArrayList<VOFolio>();
@@ -228,7 +225,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	}
 	
 	// Devuelve un listado de todas las revisiones de un folio dado, (chequeando que dicho folio esté registrado) ordenado por número de revisión. 
-	public ArrayList<VORevision> ListarRevisiones(String codF) throws RemoteException, PersistenciaException, FolioException, SQLException
+	public ArrayList<VORevision> ListarRevisiones(String codF) throws RemoteException, PersistenciaException, FolioException
 	{
 		ArrayList<VORevision> lista = new ArrayList<VORevision>();
 		boolean existe = false;
@@ -261,7 +258,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	}
 	
 	// devuelve los datos del folio con la mayor cantidad de revisiones, junto con la cantidad de revisiones correspondiente (chequeando que exista al menos un folio).
-	public VOFolioMaxRev FolioMasRevisado() throws RemoteException, PersistenciaException, FolioException, SQLException
+	public VOFolioMaxRev FolioMasRevisado() throws RemoteException, PersistenciaException, FolioException
 	{
 		VOFolioMaxRev voF = null;
 		IConexion iCon = null;

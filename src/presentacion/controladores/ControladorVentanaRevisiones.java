@@ -7,7 +7,6 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -26,6 +25,7 @@ public class ControladorVentanaRevisiones {
 		@SuppressWarnings("unused") // Codigo automatico para eliminar la warning de esta linea
 		private VentanaRevisiones vent;
 		
+		// Constructor
 		public ControladorVentanaRevisiones (VentanaRevisiones v) throws PersistenciaException {
 			this.vent = v;
 			try {
@@ -49,7 +49,7 @@ public class ControladorVentanaRevisiones {
 			}
 		}
 				
-		public void AgregarRevision (String cod, String desc){
+		public void AgregarRevision (String cod, String desc) throws PersistenciaException, RemoteException, RevisionException{
 			try{
 				this.fachada.AgregarRevision(cod, desc);
 				
@@ -57,48 +57,43 @@ public class ControladorVentanaRevisiones {
 				JOptionPane.showMessageDialog(null, "Revision agregada correctamente.");
 				
 			}catch (PersistenciaException e){
-				JOptionPane.showMessageDialog(null, e.getMensaje());
+				throw new PersistenciaException(e.getMensaje());
 			} catch (RemoteException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
+				throw new RemoteException(e.getMessage());
 			} catch (RevisionException e) {
-				JOptionPane.showMessageDialog(null, e.getMensaje());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new RevisionException(e.getMensaje());
 			}
 		}
 		
-		public String DarDescripcion (String cod, int num){
+		public String DarDescripcion (String cod, int num) throws PersistenciaException, RemoteException, RevisionException, FolioException{
 			String desc = null;
 			try{
 				desc = this.fachada.DarDescripcion(cod, num);
 				
 			}catch (PersistenciaException e){
-				JOptionPane.showMessageDialog(null, e.getMensaje());
+				throw new PersistenciaException(e.getMensaje());
 			} catch (RemoteException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
-			} catch (FolioException e) {
-				JOptionPane.showMessageDialog(null, e.getMensaje());
+				throw new RemoteException(e.getMessage());
 			} catch (RevisionException e) {
-				JOptionPane.showMessageDialog(null, e.getMensaje());
+				throw new RevisionException(e.getMensaje());
+			} catch (FolioException e) {
+				throw new FolioException(e.getMensaje());
 			}
 			return desc;
 		}
 		
-		public ArrayList<VORevision> ListarRevisiones (String cod){
+		public ArrayList<VORevision> ListarRevisiones (String cod) throws PersistenciaException, RemoteException, FolioException{
 			ArrayList<VORevision> lista = null;
 			try{
 				lista = this.fachada.ListarRevisiones(cod);
 			}catch (PersistenciaException e){
-				JOptionPane.showMessageDialog(null, e.getMensaje());
+				throw new PersistenciaException(e.getMensaje());
 			} catch (RemoteException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
+				throw new RemoteException(e.getMessage());
 			} catch (FolioException e) {
-				JOptionPane.showMessageDialog(null, e.getMensaje());
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				throw new FolioException(e.getMensaje());
+			} 
+			
 			return lista;
 		}
 }

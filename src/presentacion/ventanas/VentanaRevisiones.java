@@ -1,28 +1,34 @@
 package presentacion.ventanas;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JToolBar;
-
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import javax.swing.table.DefaultTableModel;
+import logica.excepciones.FolioException;
 import logica.excepciones.PersistenciaException;
+import logica.excepciones.RevisionException;
+import logica.valueObjects.VORevision;
 import presentacion.controladores.ControladorVentanaRevisiones;
-
-import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class VentanaRevisiones {
 
-	private JFrame frame;
+	private JFrame frmRevisiones;
 	private ControladorVentanaRevisiones controlador;
 	private JTextField txtCodigoBuscar;
+	private JTextField txtNumero;
+	private JTextField txtCodF;
+	private JTextField txtDescrip;
+	private JTable TablaRevisiones;
 
 	public VentanaRevisiones() {
 		try {
@@ -35,78 +41,182 @@ public class VentanaRevisiones {
 	}
 
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 1023, 507);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		
-		JMenuItem mntmAgregarRevision = new JMenuItem("Agregar Revision");
-		menuBar.add(mntmAgregarRevision);
-		
-		JMenuItem mntmDarDescripcion = new JMenuItem("Dar Descripcion");
-		menuBar.add(mntmDarDescripcion);
-		
-		JMenuItem mntmListarRevisiones = new JMenuItem("Listar Revisiones");
-		menuBar.add(mntmListarRevisiones);
-		frame.getContentPane().setLayout(null);
+		frmRevisiones = new JFrame();
+		frmRevisiones.setTitle("Revisiones");
+		frmRevisiones.setBounds(100, 100, 755, 506);
+		frmRevisiones.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmRevisiones.getContentPane().setLayout(null);
 		
 		JPanel panelAgregarRevision = new JPanel();
-		panelAgregarRevision.setBounds(10, 11, 987, 129);
-		frame.getContentPane().add(panelAgregarRevision);
+		panelAgregarRevision.setBounds(10, 11, 703, 223);
+		frmRevisiones.getContentPane().add(panelAgregarRevision);
 		panelAgregarRevision.setLayout(null);
 		
 		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(333, 45, 89, 23);
+		btnAgregar.setBounds(286, 44, 119, 23);
 		panelAgregarRevision.add(btnAgregar);
 		
-		JPanel panelDarDescripcion = new JPanel();
-		panelDarDescripcion.setBounds(10, 151, 987, 89);
-		frame.getContentPane().add(panelDarDescripcion);
-		panelDarDescripcion.setLayout(null);
+		JLabel lblCodF = new JLabel("Codigo de Folio:");
+		lblCodF.setBounds(10, 32, 108, 14);
+		panelAgregarRevision.add(lblCodF);
+		
+		JLabel lblDescrip = new JLabel("Descripcion:");
+		lblDescrip.setBounds(10, 66, 108, 14);
+		panelAgregarRevision.add(lblDescrip);
+		
+		txtCodF = new JTextField();
+		txtCodF.setColumns(10);
+		txtCodF.setBounds(128, 27, 86, 20);
+		panelAgregarRevision.add(txtCodF);
+		
+		txtDescrip = new JTextField();
+		txtDescrip.setColumns(10);
+		txtDescrip.setBounds(128, 63, 86, 20);
+		panelAgregarRevision.add(txtDescrip);
+		
+		JLabel lblNumero = new JLabel("Numero:");
+		lblNumero.setBounds(10, 144, 108, 14);
+		panelAgregarRevision.add(lblNumero);
+		
+		txtNumero = new JTextField();
+		txtNumero.setBounds(128, 141, 86, 20);
+		panelAgregarRevision.add(txtNumero);
+		txtNumero.setColumns(10);
+		
+		JButton BtnDarDescrip = new JButton("Dar descripcion");
+		BtnDarDescrip.setBounds(286, 140, 119, 23);
+		panelAgregarRevision.add(BtnDarDescrip);
+		
+		JLabel lblDarDescrip = new JLabel("Descripcion:");
+		lblDarDescrip.setBounds(469, 144, 206, 50);
+		panelAgregarRevision.add(lblDarDescrip);
 		
 		JPanel panelListarRevisiones = new JPanel();
-		panelListarRevisiones.setBounds(10, 251, 987, 182);
-		frame.getContentPane().add(panelListarRevisiones);
+		panelListarRevisiones.setBounds(10, 245, 703, 211);
+		frmRevisiones.getContentPane().add(panelListarRevisiones);
 		panelListarRevisiones.setLayout(null);
 		
 		JButton btnListar = new JButton("Listar");
-		btnListar.setBounds(336, 51, 89, 23);
+		btnListar.setBounds(286, 10, 119, 23);
 		panelListarRevisiones.add(btnListar);
 		
 		JLabel lblCodigo = new JLabel("Codigo: ");
-		lblCodigo.setBounds(10, 55, 63, 14);
+		lblCodigo.setBounds(10, 14, 63, 14);
 		panelListarRevisiones.add(lblCodigo);
 		
 		txtCodigoBuscar = new JTextField();
-		txtCodigoBuscar.setBounds(88, 52, 152, 20);
+		txtCodigoBuscar.setBounds(128, 11, 86, 20);
 		panelListarRevisiones.add(txtCodigoBuscar);
 		txtCodigoBuscar.setColumns(10);
 		
-		mntmAgregarRevision.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelAgregarRevision.setVisible(true);
-				panelDarDescripcion.setVisible(false);
-				panelListarRevisiones.setVisible(false);
-			}
-		});
-		
-		mntmDarDescripcion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelAgregarRevision.setVisible(false);
-				panelDarDescripcion.setVisible(true);
-				panelListarRevisiones.setVisible(false);
-			}
-		});
-		
-		mntmListarRevisiones.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				panelAgregarRevision.setVisible(false);
-				panelDarDescripcion.setVisible(false);
-				panelListarRevisiones.setVisible(true);
-			}
-		});
-	}
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(37, 44, 641, 156);
+		panelListarRevisiones.add(scrollPane);
 
+		TablaRevisiones = new JTable();
+		TablaRevisiones = new JTable();
+		TablaRevisiones = new javax.swing.JTable();
+		TablaRevisiones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][]{},
+            new String [] {
+                "Numero", "Codigo de Folio", "Descripcion"
+                }
+        ));
+        scrollPane.setViewportView(TablaRevisiones);
+        
+        // Boton para agregar una revision a un folio
+		btnAgregar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Validaciones previas al obtener los datos:
+				if(txtCodF.getText().isEmpty() || txtDescrip.getText().isEmpty() ) {
+					// Si los campos no estan cargados despliego este mensaje en pantalla
+					JOptionPane.showMessageDialog(null, "Debe cargar el código del folio y la descripción de la revisión antes de agregar una nueva revisión.");
+				}else{
+					String codF = txtCodF.getText();
+					String descrip =  txtDescrip.getText();
+					
+					try {
+						// Llamo a AgregarFolio con los datos obtenidos de la ventana
+						controlador.AgregarRevision(codF, descrip);
+						
+					} catch (RemoteException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					} catch (PersistenciaException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMensaje());
+					} catch (RevisionException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMensaje());
+					}
+				}
+			}
+		});
+		
+		// Boton para obtener la descripcion de una revision
+		BtnDarDescrip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// Validaciones previas al obtener los datos:
+				if(txtCodF.getText().isEmpty() || txtNumero.getText().isEmpty() ) {
+					// Si los campos no estan cargados despliego este mensaje en pantalla
+					JOptionPane.showMessageDialog(null, "Debe cargar el código del folio y el número de la revisión antes de obtener su descripción.");
+				}else{
+					String codF = txtCodF.getText();
+					String numR = txtNumero.getText();
+					int num =  Integer.parseInt(numR);
+					
+					try {
+						// Llamo a AgregarFolio con los datos obtenidos de la ventana
+						lblDarDescrip.setText(controlador.DarDescripcion(codF, num));
+						
+					} catch (RemoteException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage());
+					} catch (PersistenciaException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMensaje());
+					} catch (FolioException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMensaje());
+					} catch (RevisionException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMensaje());
+					}
+				}
+			}
+		});
+		
+		
+		// Boton para listar todas las revisiones de un folio
+		btnListar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+			}
+		});
+		
+	}
+	
+	// Metodo que llama al controlador para obtener la lista de todos las revisiones de un folio, y cargar esa lista en una tabla
+    public void TablaListarRevisiones(){
+        DefaultTableModel model = (DefaultTableModel) TablaRevisiones.getModel();        
+        ArrayList<VORevision> arre = null;
+        String codF = txtCodigoBuscar.getText();
+        
+		try {
+			// Llamo a ListarFolios y me quedo con ese arraylist de VOFolio para cargar todas las filas
+			arre = controlador.ListarRevisiones(codF);
+			
+	        Object rowData[] = new Object[3];
+            
+	        Iterator<VORevision> iter = arre.iterator(); 
+	        while(iter.hasNext()) {
+	        	VORevision i = iter.next();
+	        	rowData[0] = i.getNumero();
+	        	rowData[1] = i.getCodFolio();
+	        	rowData[2] = i.getDescripcion();
+	            model.addRow(rowData);
+	        }
+	        
+		} catch (RemoteException e) {
+			JOptionPane.showMessageDialog(null, e.getMessage());
+		} catch (PersistenciaException e) {
+			JOptionPane.showMessageDialog(null, e.getMensaje());
+		} catch (FolioException e) {
+			JOptionPane.showMessageDialog(null, e.getMensaje());
+		}
+    }
 }

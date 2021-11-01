@@ -199,13 +199,13 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	{
 		IConexion iCon = null;
 		ArrayList<VOFolio> lista = new ArrayList<VOFolio>();
-		boolean existeFolio = false;
+		boolean noExisteFolio = true;
 		try 
 			{
 			iCon = iPool.obtenerConexion(false);
-			existeFolio = daoF.esVacio(iCon);
+			noExisteFolio = daoF.esVacio(iCon);
 			
-			if (existeFolio) 
+			if (!noExisteFolio) 
 			{
 				lista = daoF.listarFolios(iCon);
 				iPool.liberarConexion(iCon, true);

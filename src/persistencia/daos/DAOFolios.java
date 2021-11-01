@@ -143,13 +143,10 @@ public class DAOFolios {
 			ArrayList<VOFolio> arre = new ArrayList<VOFolio>();
 			int index=0;
 			try {
+				
 				CF = new ConsultasFolio();
 				String select = CF.ListarFolios();
 				PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(select);
-				
-				pstmt.setString(1, "codigo");
-				pstmt.setString(2, "caratula");
-				pstmt.setString(3, "paginas");
 				
 				ResultSet rs = pstmt.executeQuery();
  

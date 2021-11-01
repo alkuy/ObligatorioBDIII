@@ -191,20 +191,25 @@ public class VentanaFolios {
 	}
 	
     // Metodo que llama al controlador para obtener la lista de todos los folios, y cargar esa lista en una tabla
-    public void TablaListarFolios(){
+    public void TablaListarFolios()
+    {
         DefaultTableModel model = (DefaultTableModel) TablaFolios.getModel();        
         ArrayList<VOFolio> arre = null;
         
 		try {
+			
 			// Llamo a ListarFolios y me quedo con ese arraylist de VOFolio para cargar todas las filas
 			arre = controlador.ListarFolios();
 			
 	        Object rowData[] = new Object[3];
             
 	        Iterator<VOFolio> iter = arre.iterator(); 
-	        while(iter.hasNext()) {
+	        
+	        while(iter.hasNext()) 
+	        {
 	        	VOFolio i = iter.next();
 	        	rowData[0] = i.getCodigo();
+	        	
 	        	rowData[1] = i.getCaratula();
 	        	rowData[2] = i.getPaginas();
 	            model.addRow(rowData);

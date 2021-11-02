@@ -12,13 +12,14 @@ import java.util.Properties;
 import logica.excepciones.FolioException;
 import logica.excepciones.PersistenciaException;
 import logica.excepciones.RevisionException;
+import logica.interfaces.FabricaAbstracta;
 import logica.interfaces.IConexion;
+import logica.interfaces.IDAOFolios;
 import logica.interfaces.IFachada;
 import logica.interfaces.IPoolConexiones;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
 import logica.valueObjects.VORevision;
-import persistencia.daos.DAOFolios;
 import persistencia.daos.DAORevisiones;
 
 public class Fachada extends UnicastRemoteObject implements IFachada
@@ -27,7 +28,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	private static final long serialVersionUID = 1L;
 	
 	// Atributos
-	private DAOFolios daoF = new DAOFolios();
+	private IDAOFolios daoF;
 	private IPoolConexiones iPool;
 	private static Fachada fachada;
 	
@@ -42,6 +43,15 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 			
 			String poolConcreto = p.getProperty("pool");
 			iPool = (IPoolConexiones) Class.forName(poolConcreto).newInstance();
+			
+			//String poolConcreto = p.getProperty("pool");
+			//iPool = (IPoolConexiones) Class.forName(poolConcreto).newInstance();
+			
+			String nomFab = p.getProperty("fabrica");
+			FabricaAbstracta fabrica = (FabricaAbstracta) Class.forName(nomFab).newInstance();
+			daoF = fabrica.crearIDAOFolios();			
+			iPool = fabrica.crearIPoolConexiones();
+			
 								
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

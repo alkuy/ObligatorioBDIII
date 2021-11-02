@@ -2,6 +2,7 @@ package persistencia.daos;
 import logica.Revision;
 import logica.excepciones.PersistenciaException;
 import logica.interfaces.IConexion;
+import logica.interfaces.IDAORevisiones;
 import logica.poolConexiones.Conexion;
 import logica.valueObjects.VORevision;
 import persistencia.consultas.ConsultasRevision;
@@ -11,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DAORevisiones {
+public class DAORevisiones implements IDAORevisiones{
 	
 	// Atributos
 	private String codFolio;

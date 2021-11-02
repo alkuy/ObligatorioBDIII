@@ -3,6 +3,7 @@ import logica.Folio;
 import logica.Revision;
 import logica.excepciones.PersistenciaException;
 import logica.interfaces.IConexion;
+import logica.interfaces.IDAOFolios;
 import logica.poolConexiones.Conexion;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
@@ -23,14 +24,14 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Properties;
 
-public class DAOFolios {
+public class DAOFolios implements IDAOFolios{
 
 	// Atributos
 		private String codFolio;
 		private Folio folio;
 		private ConsultasFolio CF;
 		
-		public DAOFolios(){
+		public DAOFolios() {
 			
 		}
 		

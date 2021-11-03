@@ -1,6 +1,7 @@
 package logica.interfaces;
 
 
+import java.rmi.Remote;
 import java.util.ArrayList;
 
 import logica.Folio;
@@ -9,7 +10,8 @@ import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
 
 
-public interface IDAOFolios {
+public interface IDAOFolios extends Remote
+{
 	public boolean member (IConexion iCon, String codF)  throws PersistenciaException;
 	
 	public void insert (IConexion iCon, Folio fo) throws PersistenciaException;

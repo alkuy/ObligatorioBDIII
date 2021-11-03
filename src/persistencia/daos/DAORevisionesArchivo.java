@@ -8,7 +8,7 @@ import logica.interfaces.IConexion;
 import logica.interfaces.IDAORevisiones;
 import logica.valueObjects.VORevision;
 
-public class DAORevisionesXML implements IDAORevisiones {
+public class DAORevisionesArchivo implements IDAORevisiones {
 
 	@Override
 	public boolean ExisteRevisionFolio(IConexion iCon, String codF, int numR) throws PersistenciaException {

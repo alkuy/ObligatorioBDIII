@@ -1,6 +1,7 @@
 package logica.interfaces;
 
 
+import java.rmi.Remote;
 import java.util.ArrayList;
 
 import logica.Revision;
@@ -8,7 +9,8 @@ import logica.excepciones.PersistenciaException;
 import logica.valueObjects.VORevision;
 
 
-public interface IDAORevisiones {	
+public interface IDAORevisiones extends Remote{
+	
 	public boolean ExisteRevisionFolio (IConexion iCon, String codF, int numR)  throws PersistenciaException;
 	
 	public void insback (IConexion iCon, Revision rev) throws PersistenciaException;

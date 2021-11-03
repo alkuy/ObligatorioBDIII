@@ -4,25 +4,25 @@ import logica.interfaces.FabricaAbstracta;
 import logica.interfaces.IDAOFolios;
 import logica.interfaces.IDAORevisiones;
 import logica.interfaces.IPoolConexiones;
-import persistencia.daos.DAOFoliosXML;
-import persistencia.daos.DAORevisionesXML;
+import persistencia.daos.DAOFoliosArchivo;
+import persistencia.daos.DAORevisionesArchivo;
 
-public class FabricaXML implements FabricaAbstracta{
+public class FabricaArchivo implements FabricaAbstracta{
 
 	@Override
 	public IDAOFolios crearIDAOFolios() {
 		// TODO Auto-generated method stub
-		return new DAOFoliosXML();
+		return new DAOFoliosArchivo();
 	}
 
 	@Override
 	public IDAORevisiones crearIDAORevision(String codF) {
 		// TODO Auto-generated method stub
-		return new DAORevisionesXML();
+		return new DAORevisionesArchivo();
 	}
 	
 	public IPoolConexiones crearIPoolConexiones() {
-		return new PoolConexionesXML();
+		return new PoolConexionesArchivo();
 	}
 
 }

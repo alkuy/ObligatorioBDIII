@@ -10,4 +10,4 @@ Equipo: Ivan Larrosa, Jona Diaz, Juan Pablo Perdomo, Sophia Jasidakis y Alvaro L
     - portServer = [Puerto para conectarse al servidor: Ejemplo 3308]
     - ipServer = [localhost o 127.0.0.1]
     - objetoRemoto = logica
-    - fabrica = FabricaSQL
+    - fabrica = logica.poolConexiones.FabricaSQL

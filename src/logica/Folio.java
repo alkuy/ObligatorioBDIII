@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import logica.excepciones.PersistenciaException;
 import logica.interfaces.IConexion;
+import logica.interfaces.IDAORevisiones;
 import logica.valueObjects.VORevision;
 import persistencia.daos.DAORevisiones;
 
@@ -14,7 +15,7 @@ public class Folio {
 	private String codigo;
 	private String caratula;
 	private int paginas;
-	private DAORevisiones revisiones;
+	private IDAORevisiones revisiones;
 	
 	public Folio (String cod, String car, int pag){
 		codigo = cod;

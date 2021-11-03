@@ -9,7 +9,7 @@ import logica.interfaces.IDAOFolios;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
 
-public class DAOFoliosXML implements IDAOFolios{
+public class DAOFoliosArchivo implements IDAOFolios{
 
 	@Override
 	public boolean member(IConexion iCon, String codF) throws PersistenciaException {

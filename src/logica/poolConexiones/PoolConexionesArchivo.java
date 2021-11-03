@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import logica.interfaces.IConexion;
 import logica.interfaces.IPoolConexiones;
 
-public class PoolConexionesXML implements IPoolConexiones{
+public class PoolConexionesArchivo implements IPoolConexiones{
 
 	@Override
 	public IConexion obtenerConexion(boolean modifica) throws RemoteException {

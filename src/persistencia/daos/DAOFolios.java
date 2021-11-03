@@ -27,8 +27,6 @@ import java.util.Properties;
 public class DAOFolios implements IDAOFolios{
 
 	// Atributos
-		private String codFolio;
-		private Folio folio;
 		private ConsultasFolio CF;
 		
 		public DAOFolios() {

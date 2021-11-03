@@ -30,6 +30,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	// Atributos
 	private IDAOFolios daoF;
 	private IPoolConexiones iPool;
+	private FabricaAbstracta fabrica;
 	private static Fachada fachada;
 	
 	//Constructor de la clase
@@ -41,14 +42,11 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 			String nomArch = "src/Config/Config.properties";
 			p.load (new FileInputStream (nomArch));
 			
-			String poolConcreto = p.getProperty("pool");
-			iPool = (IPoolConexiones) Class.forName(poolConcreto).newInstance();
-			
 			//String poolConcreto = p.getProperty("pool");
 			//iPool = (IPoolConexiones) Class.forName(poolConcreto).newInstance();
 			
 			String nomFab = p.getProperty("fabrica");
-			FabricaAbstracta fabrica = (FabricaAbstracta) Class.forName(nomFab).newInstance();
+			fabrica = (FabricaAbstracta) Class.forName(nomFab).newInstance();
 			daoF = fabrica.crearIDAOFolios();			
 			iPool = fabrica.crearIPoolConexiones();
 			

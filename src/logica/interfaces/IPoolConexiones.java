@@ -4,7 +4,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.sql.SQLException;
 
-public interface IPoolConexiones extends Remote{
+public interface IPoolConexiones extends Remote
+{
 
 	//Solicita una conexión (abstracta) al pool. El parámetro modifica
 	//indica si la conexión que se va a pedir es para realizar una

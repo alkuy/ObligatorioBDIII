@@ -1,6 +1,8 @@
 package logica.interfaces;
 
-public interface FabricaAbstracta {
+import java.rmi.Remote;
+
+public interface FabricaAbstracta extends Remote{
 	
 	public IDAOFolios crearIDAOFolios();
 	

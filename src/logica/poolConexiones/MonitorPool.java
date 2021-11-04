@@ -15,6 +15,7 @@ public class MonitorPool {
 	{
 		while(escribiendo)
 		{ 
+			
 			try 
 			{
 				cantLectores++;

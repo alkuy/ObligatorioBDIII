@@ -39,7 +39,8 @@ public class VentanaMenuPrincipal {
 		JButton btnIrARevision = new JButton("Ir a Revision");
 		btnIrARevision.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaRevisiones();
+				VentanaRevisiones vent = new VentanaRevisiones();
+				vent.Visualizar();
 			}
 		});
 		btnIrARevision.setBounds(261, 95, 114, 23);

@@ -97,17 +97,17 @@ public class VentanaFolios {
 		btnBorrar.setBounds(297, 81, 89, 23);
 		panelAgregarFolio.add(btnBorrar);
 		
-		JLabel lblFaltaCodigo = new JLabel("");
+		final JLabel lblFaltaCodigo = new JLabel("");
 		lblFaltaCodigo.setForeground(Color.RED);
 		lblFaltaCodigo.setBounds(241, 24, 46, 14);
 		panelAgregarFolio.add(lblFaltaCodigo);
 		
-		JLabel lblFaltaCaratula = new JLabel("");
+		final JLabel lblFaltaCaratula = new JLabel("");
 		lblFaltaCaratula.setForeground(Color.RED);
 		lblFaltaCaratula.setBounds(241, 59, 46, 14);
 		panelAgregarFolio.add(lblFaltaCaratula);
 		
-		JLabel lblFaltaPagina = new JLabel("");
+		final JLabel lblFaltaPagina = new JLabel("");
 		lblFaltaPagina.setForeground(Color.RED);
 		lblFaltaPagina.setBounds(239, 90, 46, 14);
 		panelAgregarFolio.add(lblFaltaPagina);

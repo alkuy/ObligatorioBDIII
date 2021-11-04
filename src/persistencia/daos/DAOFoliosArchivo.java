@@ -18,7 +18,9 @@ import logica.poolConexiones.*;
 public class DAOFoliosArchivo implements IDAOFolios{
 
 	SavesAndLoads SaL = new SavesAndLoads();
-
+	public DAOFoliosArchivo() {
+		
+	}
 	public boolean member(IConexion iCon, String codF) throws PersistenciaException {
 		boolean resu = false;
 		String nomArch = "folio" + codF;

@@ -1,6 +1,7 @@
 package logica.poolConexiones;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,6 +10,7 @@ import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 import java.util.concurrent.locks.Condition;
 
 import logica.excepciones.PersistenciaException;
@@ -20,8 +22,11 @@ import java.util.concurrent.locks.Condition;
 
 public class PoolConexionesArchivo implements IPoolConexiones{
 	private MonitorPool monitor = new MonitorPool();
-
 	private boolean bandera = false;
+	
+	public PoolConexionesArchivo(){
+		
+	}
 	public IConexion obtenerConexion(boolean modifica) throws RemoteException {
 		Conexion conect = null;
 		if (modifica) {

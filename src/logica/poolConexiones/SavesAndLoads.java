@@ -5,8 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import logica.Folio;
+import logica.Revision;
 import logica.excepciones.PersistenciaException;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
@@ -29,22 +31,19 @@ public class SavesAndLoads {
 		}
 		
 	}
-
-	public void SaveRevisiones(String nomArch, VOFolioMaxRev T) throws PersistenciaException
+	public void SaveTodasRevisiones(ArrayList<Revision> T, String codF) throws PersistenciaException
 	{
 		try {
-
-			FileOutputStream f = new FileOutputStream("revisiones" + nomArch);
-			ObjectOutputStream o = new ObjectOutputStream(f);
-			o.writeObject (T);
-			o.close();
-			f.close();
-		}
-		catch(IOException e){
+				FileOutputStream f = new FileOutputStream("revisiones" + codF);
+				ObjectOutputStream o = new ObjectOutputStream(f);
+				o.writeObject (T);
+				o.close();
+				f.close();
+			
+		}catch(IOException e) {
 			e.printStackTrace();
 			throw new PersistenciaException("Error al Guardar");
 		}
-		
 	}
 	public Folio LoadFolios (String nomArch)throws PersistenciaException
 	{ 
@@ -62,20 +61,22 @@ public class SavesAndLoads {
 				throw new PersistenciaException("Error al Cargar");
 			}
 	}
-	public static VOFolioMaxRev LoadRevisiones (String nomArch)throws PersistenciaException
+	@SuppressWarnings("unchecked")
+	public ArrayList<Revision> LoadRevisiones(String codf)throws PersistenciaException
 	{ 
 		try
 			{
-				FileInputStream f = new FileInputStream(nomArch);
+				FileInputStream f = new FileInputStream("revision" + codf);
 				ObjectInputStream o = new ObjectInputStream(f);
-				VOFolioMaxRev V = (VOFolioMaxRev) o.readObject();
+				ArrayList<Revision> arre = (ArrayList<Revision>) o.readObject();
 				o.close();
 				f.close();
-				return V;
+				return arre;
 			}
 			catch (IOException | ClassNotFoundException e){
 				e.printStackTrace();
 				throw new PersistenciaException("Error al Cargar");
 			}
-	}	
+	}
+
 }

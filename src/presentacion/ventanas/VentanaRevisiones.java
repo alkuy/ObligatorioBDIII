@@ -98,21 +98,21 @@ public class VentanaRevisiones {
 		BtnDarDescrip.setBounds(288, 84, 138, 23);
 		panelAgregarRevision.add(BtnDarDescrip);
 		
-		JLabel lblDarDescrip = new JLabel("");
+		final JLabel lblDarDescrip = new JLabel("");
 		lblDarDescrip.setBounds(443, 82, 221, 23);
 		panelAgregarRevision.add(lblDarDescrip);
 		
-		JLabel lblFaltaCod = new JLabel("");
+		final JLabel lblFaltaCod = new JLabel("");
 		lblFaltaCod.setForeground(Color.RED);
 		lblFaltaCod.setBounds(232, 16, 46, 14);
 		panelAgregarRevision.add(lblFaltaCod);
 		
-		JLabel lblFaltaDesc = new JLabel("");
+		final JLabel lblFaltaDesc = new JLabel("");
 		lblFaltaDesc.setForeground(Color.RED);
 		lblFaltaDesc.setBounds(232, 50, 46, 14);
 		panelAgregarRevision.add(lblFaltaDesc);
 		
-		JLabel lblFaltaNum = new JLabel("");
+		final JLabel lblFaltaNum = new JLabel("");
 		lblFaltaNum.setForeground(Color.RED);
 		lblFaltaNum.setBounds(232, 88, 46, 14);
 		panelAgregarRevision.add(lblFaltaNum);
@@ -155,7 +155,7 @@ public class VentanaRevisiones {
         btnListar.setBounds(288, 10, 138, 23);
         panelListarRevisiones.add(btnListar);
         
-        JLabel lblFaltaCodListar = new JLabel("");
+        final JLabel lblFaltaCodListar = new JLabel("");
         lblFaltaCodListar.setForeground(Color.RED);
         lblFaltaCodListar.setBounds(235, 14, 46, 14);
         panelListarRevisiones.add(lblFaltaCodListar);

@@ -18,7 +18,7 @@ public class FabricaArchivo implements FabricaAbstracta{
 	@Override
 	public IDAORevisiones crearIDAORevision(String codF) {
 		// TODO Auto-generated method stub
-		return new DAORevisionesArchivo();
+		return new DAORevisionesArchivo(codF);
 	}
 	
 	public IPoolConexiones crearIPoolConexiones() {

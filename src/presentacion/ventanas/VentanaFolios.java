@@ -23,6 +23,8 @@ import presentacion.controladores.ControladorVentanaFolios;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
+import java.awt.Color;
+import javax.swing.border.LineBorder;
 
 public class VentanaFolios {
 	// Atributos
@@ -50,11 +52,12 @@ public class VentanaFolios {
 	private void initialize() {
 		frmFolios = new JFrame();
 		frmFolios.setTitle("Folios");
-		frmFolios.setBounds(100, 100, 710, 481);
+		frmFolios.setBounds(100, 100, 710, 480);
 		frmFolios.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmFolios.getContentPane().setLayout(null);
 		
-		Panel panelAgregarFolio = new Panel();
+		JPanel panelAgregarFolio = new JPanel();
+		panelAgregarFolio.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		panelAgregarFolio.setBounds(10, 10, 672, 126);
 		frmFolios.getContentPane().add(panelAgregarFolio);
 		panelAgregarFolio.setLayout(null);
@@ -63,7 +66,7 @@ public class VentanaFolios {
 		btnAgregar.setBounds(297, 20, 89, 23);
 		panelAgregarFolio.add(btnAgregar);
 		
-		JLabel TxtCodigo = new JLabel("Codigo: ");
+		JLabel TxtCodigo = new JLabel("C\u00F3digo: ");
 		TxtCodigo.setBounds(10, 24, 75, 14);
 		panelAgregarFolio.add(TxtCodigo);
 		
@@ -71,7 +74,7 @@ public class VentanaFolios {
 		TxtCaratula.setBounds(10, 59, 75, 14);
 		panelAgregarFolio.add(TxtCaratula);
 		
-		JLabel TxtPaginas = new JLabel("Paginas: ");
+		JLabel TxtPaginas = new JLabel("P\u00E1ginas: ");
 		TxtPaginas.setBounds(10, 90, 75, 14);
 		panelAgregarFolio.add(TxtPaginas);
 		
@@ -93,9 +96,25 @@ public class VentanaFolios {
 		JButton btnBorrar = new JButton("Borrar");
 		btnBorrar.setBounds(297, 81, 89, 23);
 		panelAgregarFolio.add(btnBorrar);
+		
+		JLabel lblFaltaCodigo = new JLabel("");
+		lblFaltaCodigo.setForeground(Color.RED);
+		lblFaltaCodigo.setBounds(241, 24, 46, 14);
+		panelAgregarFolio.add(lblFaltaCodigo);
+		
+		JLabel lblFaltaCaratula = new JLabel("");
+		lblFaltaCaratula.setForeground(Color.RED);
+		lblFaltaCaratula.setBounds(241, 59, 46, 14);
+		panelAgregarFolio.add(lblFaltaCaratula);
+		
+		JLabel lblFaltaPagina = new JLabel("");
+		lblFaltaPagina.setForeground(Color.RED);
+		lblFaltaPagina.setBounds(239, 90, 46, 14);
+		panelAgregarFolio.add(lblFaltaPagina);
 				
 		JPanel panelListarFolios = new JPanel();
-		panelListarFolios.setBounds(10, 166, 672, 276);
+		panelListarFolios.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		panelListarFolios.setBounds(10, 142, 672, 288);
 		frmFolios.getContentPane().add(panelListarFolios);
 		panelListarFolios.setLayout(null);
 		
@@ -104,12 +123,12 @@ public class VentanaFolios {
 		btnListarFolios.setBounds(98, 11, 130, 23);
 		panelListarFolios.add(btnListarFolios);
 		
-		JButton btnMasRevisado = new JButton("Mas revisado");
+		JButton btnMasRevisado = new JButton("M\u00E1s revisado");
 		btnMasRevisado.setBounds(446, 11, 130, 23);
 		panelListarFolios.add(btnMasRevisado);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(41, 45, 587, 218);
+		scrollPane.setBounds(10, 46, 652, 231);
 		panelListarFolios.add(scrollPane);
 		
 		TablaFolios = new JTable();
@@ -117,7 +136,7 @@ public class VentanaFolios {
         TablaFolios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]{},
             new String [] {
-                "Codigo", "Caratula", "Paginas"
+                "Código", "Caratula", "Páginas"
                 }
         ));
         scrollPane.setViewportView(TablaFolios);
@@ -127,14 +146,31 @@ public class VentanaFolios {
 			public void actionPerformed(ActionEvent e) {
 				// Validaciones previas al obtener los datos:
 				if(txtCodigo.getText().isEmpty() || txtCaratula.getText().isEmpty() || txtPaginas.getText().isEmpty() ) {
+					// Muestro una marca de texto requerido en rojo sobre el campo que falta ser cargado
+					lblFaltaCodigo.setText("(*)");
+					lblFaltaCodigo.setBackground(Color.red);
+					lblFaltaCaratula.setText("(*)");
+					lblFaltaPagina.setText("(*)");
+					
+					
 					// Si los campos no estan cargados despliego este mensaje en pantalla
-					JOptionPane.showMessageDialog(null, "Debe cargar todos los campos antes de agregar el folio.");
+					JOptionPane.showMessageDialog(null, "Debe cargar todos los campos requeridos antes de agregar el folio "+lblFaltaCodigo.getText()+".");
 				}else{
 					String cod = txtCodigo.getText();
 					String cara =  txtCaratula.getText();
 					int pag = Integer.parseInt(txtPaginas.getText());
 					
+					// Dejo en blanco la marca de texto requerido
+					lblFaltaCodigo.setText("");
+					lblFaltaCaratula.setText("");
+					lblFaltaPagina.setText("");
+					
 					try {
+						// Pongo los campos textos en blanco luego de ejecutar la accion del boton
+						txtCodigo.setText("");
+						txtCaratula.setText("");
+						txtPaginas.setText("");
+						
 						// Llamo a AgregarFolio con los datos obtenidos de la ventana
 						controlador.AgregarFolio(cod, cara, pag);
 						
@@ -154,12 +190,28 @@ public class VentanaFolios {
 			public void actionPerformed(ActionEvent e) {
 				// Validaciones previas al obtener los datos:
 				if(txtCodigo.getText().isEmpty()) {
+					// Muestro una marca de texto requerido en rojo sobre el campo que falta ser cargado
+					lblFaltaCodigo.setText("(*)");
+					lblFaltaCaratula.setText("");
+					lblFaltaPagina.setText("");
+					
 					// Si los campos no estan cargados despliego este mensaje en pantalla
-					JOptionPane.showMessageDialog(null, "Debe ingresar un codigo de folio antes borrarlo.");
+					JOptionPane.showMessageDialog(null, "Debe ingresar un codigo de folio antes borrarlo "+lblFaltaCodigo.getText()+".");
+					
 				}else{
+					// Dejo en blanco la marca de texto requerido
+					lblFaltaCodigo.setText("");
+					lblFaltaCaratula.setText("");
+					lblFaltaPagina.setText("");
+					
 					String cod = txtCodigo.getText();
 								
 					try {
+						// Pongo los campos textos en blanco luego de ejecutar la accion del boton
+						txtCodigo.setText("");
+						txtCaratula.setText("");
+						txtPaginas.setText("");
+						
 						// Llamo al borrarFolio con los datos obtenidos de la ventana
 						controlador.BorrarFolio(cod);
 						
@@ -211,7 +263,6 @@ public class VentanaFolios {
 	        {
 	        	VOFolio i = iter.next();
 	        	rowData[0] = i.getCodigo();
-	        	
 	        	rowData[1] = i.getCaratula();
 	        	rowData[2] = i.getPaginas();
 	            model.addRow(rowData);
@@ -241,6 +292,22 @@ public class VentanaFolios {
 			// Llamo a FolioMasRevisado y me quedo con el VOFolioMaxRev para cargarlo en la tabla
 			VOF = controlador.FolioMasRevisado();
 			
+
+			if (VOF == null) {
+				System.out.println("Es null");
+			}
+			else 
+			{
+				System.out.println("Cant revisiones de ese folio:" +VOF.getCantRevisiones());
+				
+		       	rowData[0] = VOF.getCodigo();
+		        rowData[1] = VOF.getCaratula();
+		        rowData[2] = VOF.getPaginas();
+		        model.addRow(rowData);
+			}
+
+
+	        
 		} catch (RemoteException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} catch (PersistenciaException e) {
@@ -248,11 +315,6 @@ public class VentanaFolios {
 		} catch (FolioException e) {
 			JOptionPane.showMessageDialog(null, e.getMensaje());
 		}
-		
-       	rowData[0] = VOF.getCodigo();
-        rowData[1] = VOF.getCaratula();
-        rowData[2] = VOF.getPaginas();
-        model.addRow(rowData);
     }
     
 }

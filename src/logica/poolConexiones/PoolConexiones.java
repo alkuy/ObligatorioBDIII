@@ -10,7 +10,6 @@ import java.sql.SQLException;
 import java.util.Properties;
 import java.util.concurrent.locks.Condition;
 
-import Logica.Monitor;
 import logica.interfaces.IConexion;
 import logica.interfaces.IFachada;
 import logica.interfaces.IPoolConexiones;
@@ -27,7 +26,6 @@ public class PoolConexiones implements IPoolConexiones {
 	private int tope;
 	private Conexion Conexiones [];
 	private Cola cola; 
-	private MonitorPool Monitor = new MonitorPool();
 
 	//Metodo constructor
 	public PoolConexiones()

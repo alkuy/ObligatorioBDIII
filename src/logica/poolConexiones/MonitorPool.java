@@ -1,8 +1,8 @@
 package logica.poolConexiones;
+
 import java.util.concurrent.locks.Condition;
 
 public class MonitorPool {
-
 	private int cantLectores = 0;
 	private int cantLectoresLeyendo = 0;
 	private boolean escribiendo = false;
@@ -10,60 +10,59 @@ public class MonitorPool {
 	private boolean intetaEscribir = false;
 	private Condition OKLeer;
 	private Condition OKEscribir;
-	       	       
+	
 	public synchronized void comienzoLectura()
 	{
-	   while(escribiendo)
-	   { 
-		   try 
-		   {
+		while(escribiendo)
+		{ 
+			try 
+			{
 				cantLectores++;
-			   	OKLeer.wait();
-			   	if(cantLectores > 0)
-			   	cantLectores--;
-		   }
-		   catch(InterruptedException e)
-		   {
-			   e.printStackTrace();
-		   }  
-	   }
-       leyendo = true;
-       cantLectoresLeyendo++;
-    }
-		   
-    public synchronized void terminoLectura()
-    {
-        if (cantLectores == 0 )
-        {	        		
-        	if(cantLectoresLeyendo > 0)
-		   	{
-		    	cantLectoresLeyendo--;
-		       	if(cantLectoresLeyendo == 0)
-			 	leyendo = false;
-		   	}	        		   	
-		    if (intetaEscribir)
-		        OKEscribir.notify();
-		 }
-		 else
-			 OKLeer.notify();
-    }    
+				OKLeer.wait();
+				if(cantLectores > 0)
+					cantLectores--;
+			}
+			catch(InterruptedException e)
+			{
+				e.printStackTrace();
+			}  
+		}		       
+		leyendo = true;
+		cantLectoresLeyendo++;
+	}			   
+	public synchronized void terminoLectura()
+	{
+		if (cantLectores == 0 )
+		{	        		
+			if(cantLectoresLeyendo > 0)
+			{
+				cantLectoresLeyendo--;
+				if(cantLectoresLeyendo == 0)
+					leyendo = false;
+			}	        					        	
+			if (intetaEscribir)
+				OKEscribir.notify();
+		}
+		else
+			OKLeer.notify();
+	}			    
 	public synchronized void comienzoEscritura()
 	{
 		while (leyendo || escribiendo)
 		{
 			try 
-		    {
-		    	intetaEscribir = true;
+			{
+				intetaEscribir = true;
 				OKEscribir.wait();
 				intetaEscribir = false;
 			} 
-		    catch (InterruptedException e) 
-		    {
+			catch (InterruptedException e) 
+			{
 				e.printStackTrace();
 			}
 		}
-		escribiendo=true;	        
-	}
+		escribiendo=true;			        
+	}			    
 	public synchronized void terminoEscritura()
 	{
 		escribiendo=false;
@@ -72,5 +71,4 @@ public class MonitorPool {
 		else if(intetaEscribir)
 			OKEscribir.notify();
 	}
-} 
-
+}

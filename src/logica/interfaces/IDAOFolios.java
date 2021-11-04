@@ -20,10 +20,10 @@ public interface IDAOFolios extends Remote
 	
 	public void delete (IConexion iCon, String codF) throws PersistenciaException;
 	
-	public ArrayList<VOFolio> listarFolios (IConexion iCon);
+	public ArrayList<VOFolio> listarFolios (IConexion iCon) throws PersistenciaException;
 	
 	public boolean esVacio (IConexion iCon)  throws PersistenciaException;
 
-	public VOFolioMaxRev folioMasRevisado (IConexion iCon);
+	public VOFolioMaxRev folioMasRevisado (IConexion iCon) throws PersistenciaException;
 	
 }

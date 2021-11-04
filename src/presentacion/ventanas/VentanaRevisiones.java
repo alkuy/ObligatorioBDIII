@@ -146,7 +146,7 @@ public class VentanaRevisiones {
 		TablaRevisiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]{},
             new String [] {
-                "Número", "Código de Folio", "Descripción"
+                "Nï¿½mero", "Cï¿½digo de Folio", "Descripciï¿½n"
                 }
         ));
         scrollPane.setViewportView(TablaRevisiones);
@@ -179,7 +179,7 @@ public class VentanaRevisiones {
 					
 					// Pongo los campos textos en blanco luego de ejecutar la accion del boton
 					txtCodF.setText("");
-					txtCodigoBuscar.setText("");
+					//txtCodigoBuscar.setText("");
 					txtNumero.setText("");
 					txtDescrip.setText("");
 					
@@ -200,7 +200,7 @@ public class VentanaRevisiones {
 					lblFaltaNum.setText("");
 					
 					// Si los campos no estan cargados despliego este mensaje en pantalla
-					JOptionPane.showMessageDialog(null, "Debe cargar los campos requeridos antes de agregar una nueva revisión (*).");
+					JOptionPane.showMessageDialog(null, "Debe cargar los campos requeridos antes de agregar una nueva revisiï¿½n (*).");
 				}else{
 					// Dejo en blanco la marca de texto requerido
 					lblFaltaCod.setText("");
@@ -244,7 +244,7 @@ public class VentanaRevisiones {
 					lblFaltaNum.setText("(*)");
 					
 					// Si los campos no estan cargados despliego este mensaje en pantalla
-					JOptionPane.showMessageDialog(null, "Debe cargar los campos requeridos antes de obtener su descripción (*).");
+					JOptionPane.showMessageDialog(null, "Debe cargar los campos requeridos antes de obtener su descripciï¿½n (*).");
 				}else{
 					// Dejo en blanco la marca de texto requerido
 					lblFaltaCod.setText("");

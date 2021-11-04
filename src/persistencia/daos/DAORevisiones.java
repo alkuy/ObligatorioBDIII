@@ -86,7 +86,7 @@ public class DAORevisiones implements IDAORevisiones{
 				cant++;
 			}
 		} catch (SQLException e) {
-			throw new PersistenciaException("Ocurrió un error al obtener la cantidad de revisiones.");
+			throw new PersistenciaException("Ocurriï¿½ un error al obtener la cantidad de revisiones.");
 			// e.printStackTrace();
 		}
 		return cant;
@@ -114,7 +114,7 @@ public class DAORevisiones implements IDAORevisiones{
 			revision = new Revision(Numero, codFolio, desc);
 			
 		} catch (SQLException e) {
-			throw new PersistenciaException("Ocurriï¿½ un error al obtener la revisiï¿½n.");
+			throw new PersistenciaException("Ocurrio un error al obtener la revision.");
 			// e.printStackTrace();
 		}
 	
@@ -136,7 +136,7 @@ public class DAORevisiones implements IDAORevisiones{
 			ResultSet rs = pstmt.executeQuery();
 	
 			while (rs.next()) {
-				if(codFolio.equals(rs.getString("codigo"))) {
+				if(codFolio.equals(rs.getString("codigoFolio"))) {
 					VORevision vo = new VORevision(rs.getInt("numero"), rs.getString("descripcion"), codFolio);
 					lista.add(vo);
 				}
@@ -144,9 +144,10 @@ public class DAORevisiones implements IDAORevisiones{
 	
 			rs.close();
 			pstmt.close();
-		}catch(SQLException e){
-			throw new PersistenciaException("Ocurriï¿½ un error al obtener las revisiones.");
-			// e.printStackTrace();
+		}catch(SQLException e)
+		{
+			//e.printStackTrace();
+			throw new PersistenciaException("Ocurrio un error al obtener las revisiones.");
 		}
 		return lista;
 	}

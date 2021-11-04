@@ -37,7 +37,7 @@ public class DAOFolios implements IDAOFolios{
 		// Metodo que permite recibir codigo de folio y verificar si existe en la secuencia
 		public boolean member (IConexion iCon, String codF)  throws PersistenciaException {
 			boolean resu = false;
-			
+			//System.out.println("codigo Folio: "+codF);
 			try {
 				CF = new ConsultasFolio();
 				String select = CF.ExisteFolio();

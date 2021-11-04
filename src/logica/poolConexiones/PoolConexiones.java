@@ -100,7 +100,7 @@ public class PoolConexiones implements IPoolConexiones {
 				conect = new Conexion(con);
 				
 				creadas++; //Se aumenta el contador de conexiones creadas
-				System.out.println("Creando conexion");
+				//System.out.println("Creando conexion");
 				
 			}
 			catch (SQLException e) 
@@ -117,18 +117,18 @@ public class PoolConexiones implements IPoolConexiones {
 				conect = Conexiones[tope-1];
 				tope--;
 				cola.quitar();
-				System.out.println("Entrega conexion");
+				//System.out.println("Entrega conexion");
 		}
 		else	//Caso donde no quedan conexiones por crear o disponibles
 		{
-			System.out.println("Espera conexion");
+			//System.out.println("Espera conexion");
 			cola.quitar(); //Se envia la solicitud a la cola de espera
 			conect =  Conexiones[tope-1];//Cuando sale de la cola de espera es porque se agrego una conexion al arreglo con tope
 			tope--; //Se quita una conexion del arreglo
 			cola.quitar();//Se quita un lugar de la cola de espera
 			
 		}
-		System.out.println("Datos - Tope: "+tope+" Creadas: "+creadas);
+		//System.out.println("Datos - Tope: "+tope+" Creadas: "+creadas);
 		return conect;
 		
 	}

@@ -203,7 +203,9 @@ public class VentanaFolios {
 			
 	        Object rowData[] = new Object[3];
             
-	        Iterator<VOFolio> iter = arre.iterator(); 
+	        Iterator<VOFolio> iter = arre.iterator();
+	        
+	        model.setRowCount(0);
 	        
 	        while(iter.hasNext()) 
 	        {
@@ -232,6 +234,8 @@ public class VentanaFolios {
         VOFolioMaxRev VOF = null;
     	DefaultTableModel model = (DefaultTableModel) TablaFolios.getModel();
         Object rowData[] = new Object[3];
+        
+        model.setRowCount(0);
         
 		try {
 			// Llamo a FolioMasRevisado y me quedo con el VOFolioMaxRev para cargarlo en la tabla

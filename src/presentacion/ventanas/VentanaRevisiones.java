@@ -39,6 +39,10 @@ public class VentanaRevisiones {
 			JOptionPane.showMessageDialog(null, e.getMensaje());
 		}
 	}
+	
+	public void Visualizar () {
+		frmRevisiones.setVisible(true);
+	}
 
 	private void initialize() {
 		frmRevisiones = new JFrame();
@@ -130,7 +134,7 @@ public class VentanaRevisiones {
 				// Validaciones previas al obtener los datos:
 				if(txtCodF.getText().isEmpty() || txtDescrip.getText().isEmpty() ) {
 					// Si los campos no estan cargados despliego este mensaje en pantalla
-					JOptionPane.showMessageDialog(null, "Debe cargar el código del folio y la descripción de la revisión antes de agregar una nueva revisión.");
+					JOptionPane.showMessageDialog(null, "Debe cargar el cï¿½digo del folio y la descripciï¿½n de la revisiï¿½n antes de agregar una nueva revisiï¿½n.");
 				}else{
 					String codF = txtCodF.getText();
 					String descrip =  txtDescrip.getText();
@@ -156,7 +160,7 @@ public class VentanaRevisiones {
 				// Validaciones previas al obtener los datos:
 				if(txtCodF.getText().isEmpty() || txtNumero.getText().isEmpty() ) {
 					// Si los campos no estan cargados despliego este mensaje en pantalla
-					JOptionPane.showMessageDialog(null, "Debe cargar el código del folio y el número de la revisión antes de obtener su descripción.");
+					JOptionPane.showMessageDialog(null, "Debe cargar el cï¿½digo del folio y el nï¿½mero de la revisiï¿½n antes de obtener su descripciï¿½n.");
 				}else{
 					String codF = txtCodF.getText();
 					String numR = txtNumero.getText();

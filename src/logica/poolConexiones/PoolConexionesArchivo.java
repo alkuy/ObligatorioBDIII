@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,13 +21,18 @@ import logica.valueObjects.*;
 
 import java.util.concurrent.locks.Condition;
 
-public class PoolConexionesArchivo implements IPoolConexiones{
-	private MonitorPool monitor = new MonitorPool();
+public class PoolConexionesArchivo implements IPoolConexiones, Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private MonitorPool monitor;
 	private boolean bandera = false;
 	
 	public PoolConexionesArchivo(){
-		
+		monitor = MonitorPool.getInstancia(); //Instanciamos la cola de esperar para las solicitudes que deben esperar por una conexion
 	}
+	
 	public IConexion obtenerConexion(boolean modifica) throws RemoteException {
 		Conexion conect = null;
 		if (modifica) {

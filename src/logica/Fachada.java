@@ -41,10 +41,8 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 					
 			String nomArch = "src/Config/Config.properties";
 			p.load (new FileInputStream (nomArch));
-			
 			//String poolConcreto = p.getProperty("pool");
 			//iPool = (IPoolConexiones) Class.forName(poolConcreto).newInstance();
-			
 			String nomFab = p.getProperty("fabrica");
 			fabrica = (FabricaAbstracta) Class.forName(nomFab).newInstance();
 			daoF = fabrica.crearIDAOFolios();			
@@ -58,7 +56,6 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 		} catch (IOException e) {
 			e.printStackTrace();
 		} catch (InstantiationException e) {
-			e.printStackTrace();
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
@@ -116,8 +113,8 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 			// Si existe el folio, se le agrega la revision
 			if (Fol.getCodigo() != null) 
 			{
-				int num = daoF.find(iCon, codF).NumeroUltimaRevision(iCon);
-				Revision rev = new Revision(num, codF, desc);
+				int num = daoF.find(iCon, codF).cantidadRevisiones(iCon);
+				Revision rev = new Revision(num+1, codF, desc);
 				daoF.find(iCon, codF).addRevision(iCon,rev);
 				iPool.liberarConexion(iCon, true);
 			} 
@@ -247,8 +244,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 			
 			if (existe) 
 			{
-				DAORevisiones daoR = new DAORevisiones(codF);
-				lista = daoR.listarRevisiones(iCon);
+				lista = daoF.find(iCon, codF).listarRevision(iCon);
 				iPool.liberarConexion(iCon, true);
 			}
 			else 

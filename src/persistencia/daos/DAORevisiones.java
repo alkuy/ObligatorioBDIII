@@ -7,13 +7,18 @@ import logica.poolConexiones.Conexion;
 import logica.valueObjects.VORevision;
 import persistencia.consultas.ConsultasRevision;
 
+import java.io.Serializable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class DAORevisiones implements IDAORevisiones{
+public class DAORevisiones implements IDAORevisiones, Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Atributos
 	private String codFolio;
 	private Revision revision;

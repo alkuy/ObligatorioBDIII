@@ -1,7 +1,13 @@
 package logica;
 
-public class Revision {
+import java.io.Serializable;
 
+public class Revision implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int numero;
 	private String codigoFolio;
 	private String descripcion;

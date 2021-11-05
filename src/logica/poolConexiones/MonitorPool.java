@@ -1,8 +1,14 @@
 package logica.poolConexiones;
 
+import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.concurrent.locks.Condition;
 
-public class MonitorPool {
+public class MonitorPool implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int cantLectores = 0;
 	private int cantLectoresLeyendo = 0;
 	private boolean escribiendo = false;
@@ -10,6 +16,14 @@ public class MonitorPool {
 	private boolean intetaEscribir = false;
 	private Condition OKLeer;
 	private Condition OKEscribir;
+	private static MonitorPool instancia; // Singleton
+	
+	public synchronized static MonitorPool getInstancia ()
+	{ 
+		if (instancia == null)
+			instancia = new MonitorPool(); // Singleton
+		return instancia;
+	}
 	
 	public synchronized void comienzoLectura()
 	{

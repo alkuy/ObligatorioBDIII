@@ -1,27 +1,68 @@
 package logica;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Properties;
 
 import logica.excepciones.PersistenciaException;
+import logica.interfaces.FabricaAbstracta;
 import logica.interfaces.IConexion;
 import logica.interfaces.IDAORevisiones;
 import logica.valueObjects.VORevision;
 import persistencia.daos.DAORevisiones;
 
-public class Folio {
+public class Folio implements Serializable  {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// Atributos
 	private String codigo;
 	private String caratula;
 	private int paginas;
 	private IDAORevisiones revisiones;
+	private FabricaAbstracta fabrica;
 	
 	public Folio (String cod, String car, int pag){
 		codigo = cod;
 		caratula = car;
 		paginas = pag;
-		revisiones = new DAORevisiones(cod);
+		try
+		{
+			Properties p = new Properties();
+			
+			String nomArch = "src/Config/Config.properties";
+			p.load (new FileInputStream (nomArch));			
+			String nomFab = p.getProperty("fabrica");
+			fabrica = (FabricaAbstracta) Class.forName(nomFab).newInstance();
+			revisiones = fabrica.crearIDAORevision(cod);		
+		}
+		catch (ClassNotFoundException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (FileNotFoundException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IOException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (InstantiationException e) 
+		{
+			e.printStackTrace();
+		} 
+		catch (IllegalAccessException e) 
+		{
+			e.printStackTrace();
+		}
+		//revisiones = null;//new DAORevisiones(cod);
 	}
 	
 	public String getCodigo() {

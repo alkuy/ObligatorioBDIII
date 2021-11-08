@@ -142,7 +142,11 @@ public class VentanaRevisiones {
 
 		TablaRevisiones = new JTable();
 		TablaRevisiones = new JTable();
-		TablaRevisiones = new javax.swing.JTable();
+		TablaRevisiones = new javax.swing.JTable(){
+			public boolean isCellEditable(int row, int column){
+				return false;
+				}
+		};
 		TablaRevisiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]{},
             new String [] {

@@ -33,6 +33,7 @@ public class VentanaFolios {
 	private JTextField txtCaratula;
 	private JTextField txtPaginas;
 	private JTable TablaFolios;
+	private JTable TablaFolios_1;
 	private ControladorVentanaFolios controlador;
 	
 	
@@ -132,14 +133,19 @@ public class VentanaFolios {
 		panelListarFolios.add(scrollPane);
 		
 		TablaFolios = new JTable();
-		TablaFolios = new javax.swing.JTable();
-        TablaFolios.setModel(new javax.swing.table.DefaultTableModel(
+		TablaFolios_1 = new javax.swing.JTable() {
+			public boolean isCellEditable(int row, int column){
+				return false;
+				}
+		};
+		TablaFolios_1.setRowSelectionAllowed(false);
+        TablaFolios_1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]{},
             new String [] {
                 "Código", "Caratula", "Páginas"
                 }
         ));
-        scrollPane.setViewportView(TablaFolios);
+        scrollPane.setViewportView(TablaFolios_1);
         		
 		// Boton para agregar un folio
 		btnAgregar.addActionListener(new ActionListener() {
@@ -245,7 +251,7 @@ public class VentanaFolios {
     // Metodo que llama al controlador para obtener la lista de todos los folios, y cargar esa lista en una tabla
     public void TablaListarFolios()
     {
-        DefaultTableModel model = (DefaultTableModel) TablaFolios.getModel();        
+        DefaultTableModel model = (DefaultTableModel) TablaFolios_1.getModel();        
         ArrayList<VOFolio> arre = null;
         
 		try {
@@ -283,9 +289,8 @@ public class VentanaFolios {
     // Metodo que llama al controlador para obtener el folio mas revisado y cargarlo en la tabla
     public void TablaListarFolioMasRevisado(){
         VOFolioMaxRev VOF = null;
-    	DefaultTableModel model = (DefaultTableModel) TablaFolios.getModel();
+    	DefaultTableModel model = (DefaultTableModel) TablaFolios_1.getModel();
         Object rowData[] = new Object[3];
-        
         model.setRowCount(0);
         
 		try {

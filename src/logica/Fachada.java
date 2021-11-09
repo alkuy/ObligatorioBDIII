@@ -230,7 +230,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	}
 	
 	// Devuelve un listado de todas las revisiones de un folio dado, (chequeando que dicho folio esté registrado) ordenado por número de revisión. 
-	public ArrayList<VORevision> ListarRevisiones(String codF) throws RemoteException, PersistenciaException, FolioException
+	public ArrayList<VORevision> ListarRevisiones(String codF) throws RemoteException, PersistenciaException, FolioException, RevisionException
 	{
 		ArrayList<VORevision> lista = new ArrayList<VORevision>();
 		boolean existe = false;
@@ -244,8 +244,16 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 			
 			if (existe) 
 			{
-				lista = daoF.find(iCon, codF).listarRevision(iCon);
-				iPool.liberarConexion(iCon, true);
+				if (daoF.find(iCon, codF).cantidadRevisiones(iCon)>0)
+				{
+					lista = daoF.find(iCon, codF).listarRevision(iCon);
+					iPool.liberarConexion(iCon, true);
+				}
+				else
+				{
+					iPool.liberarConexion(iCon, false);
+					throw new RevisionException("No hay revisiones para este folio.");
+				}
 			}
 			else 
 			{

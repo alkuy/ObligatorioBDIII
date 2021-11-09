@@ -82,7 +82,7 @@ public class ControladorVentanaRevisiones {
 			return desc;
 		}
 		
-		public ArrayList<VORevision> ListarRevisiones (String cod) throws PersistenciaException, RemoteException, FolioException{
+		public ArrayList<VORevision> ListarRevisiones (String cod) throws PersistenciaException, RemoteException, FolioException, RevisionException{
 			ArrayList<VORevision> lista = null;
 			try{
 				lista = this.fachada.ListarRevisiones(cod);
@@ -92,6 +92,8 @@ public class ControladorVentanaRevisiones {
 				throw new RemoteException(e.getMessage());
 			} catch (FolioException e) {
 				throw new FolioException(e.getMensaje());
+			} catch (RevisionException e) {
+				throw new RevisionException(e.getMensaje());
 			} 
 			
 			return lista;

@@ -24,7 +24,7 @@ public interface IFachada extends Remote{
 	
 	public ArrayList<VOFolio> ListarFolios() throws RemoteException, PersistenciaException, FolioException;
 	
-	public ArrayList<VORevision> ListarRevisiones(String codF) throws RemoteException, PersistenciaException, FolioException;
+	public ArrayList<VORevision> ListarRevisiones(String codF) throws RemoteException, PersistenciaException, FolioException, RevisionException;
 	
 	public VOFolioMaxRev FolioMasRevisado() throws RemoteException, PersistenciaException, FolioException;
 

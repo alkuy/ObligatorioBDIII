@@ -48,6 +48,7 @@ public class PoolConexionesArchivo implements IPoolConexiones, Serializable{
 	public void liberarConexion(IConexion con, boolean ok) throws RemoteException, SQLException {
 		if(bandera) {
 			monitor.terminoEscritura();
+			bandera = false;
 		}
 		else {
 			monitor.terminoLectura();

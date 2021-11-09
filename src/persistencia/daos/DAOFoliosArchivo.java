@@ -70,9 +70,13 @@ public class DAOFoliosArchivo implements IDAOFolios, Serializable{
 
 	public void delete(IConexion iCon, String codF) throws PersistenciaException 
 	{
-		File file = new File("folio" + codF);
+		File file = new File("src/archivos/folios/folio"+ codF);
 		if(file.exists())
+		{
+			find(iCon, codF).borrarRevision(iCon);
 			file.delete();
+		}
+			
 	}
 
 	public ArrayList<VOFolio> listarFolios(IConexion iCon) throws PersistenciaException 
@@ -124,15 +128,13 @@ public class DAOFoliosArchivo implements IDAOFolios, Serializable{
 			final File folder = new File("src/archivos/folios/");
 			for (final File fileEntry : folder.listFiles()) 
 			{
-				if (fileEntry.isDirectory()) 
+				Folio F = SaL.LoadFolios(fileEntry.toString());
+				if(F.cantidadRevisiones(iCon)>mayor)
 				{
-					Folio F = SaL.LoadFolios(fileEntry.toString());
-					if(F.cantidadRevisiones(iCon)>mayor)
-					{
-						mayor = F.cantidadRevisiones(iCon);
-						Max = new VOFolioMaxRev(F.getCodigo(), F.getCaratula(), F.getPaginas(), mayor);
-					}
+					mayor = F.cantidadRevisiones(iCon);
+					Max = new VOFolioMaxRev(F.getCodigo(), F.getCaratula(), F.getPaginas(), mayor);
 				}
+				
 			}
 			return Max;	
 		}

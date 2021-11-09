@@ -314,6 +314,8 @@ public class VentanaRevisiones {
 			JOptionPane.showMessageDialog(null, e.getMensaje());
 		} catch (FolioException e) {
 			JOptionPane.showMessageDialog(null, e.getMensaje());
+		} catch (RevisionException e) {
+			JOptionPane.showMessageDialog(null, e.getMensaje());
 		}
     }
 }

@@ -53,28 +53,27 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 	public void insback(IConexion iCon, Revision rev) throws PersistenciaException 
 	{
 		/*cargas el arreglo de revisiones que tengan el mismo numero de folio y lo agregas al final*/
-		String codF = rev.getCodigoFolio();
 		ArrayList<Revision> arre = null;
-		
 		if(largo(iCon)>0)
 		{
-			arre = SaL.LoadRevisiones(codF);
+			arre = SaL.LoadRevisiones(codFolio);
 			arre.add(rev);
 		}
 		else
 		{
 			arre = new ArrayList<Revision>();
 			arre.add(rev);
+			borrarRevisiones(iCon);
 		}
 		
-		SaL.SaveTodasRevisiones(arre, codF);		
+		SaL.SaveTodasRevisiones(arre, codFolio);		
 	}
 
 	public int largo(IConexion iCon) throws PersistenciaException {
 		ArrayList<Revision> arre = null;
 		try
 		{
-			File file = new File("src/archivos/revisiones/"+"revision"+codFolio);
+			File file = new File("src/archivos/revisiones/"+"revisiones"+codFolio);
 			if(file.exists())
 			{
 				arre = SaL.LoadRevisiones(codFolio);
@@ -111,7 +110,9 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 
 	}
 
-	public ArrayList<VORevision> listarRevisiones(IConexion iCon) throws PersistenciaException {
+	public ArrayList<VORevision> listarRevisiones(IConexion iCon) throws PersistenciaException 
+	{
+		//System.out.println("--ListarRevisiones--");
 		int i=0;
 		ArrayList<VORevision> A = new ArrayList<VORevision>();
 		try{
@@ -121,17 +122,21 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 				String descripcion = arre.get(i).getDescripcion();
 				String codigoF = arre.get(i).getCodigoFolio();
 				A.add(new VORevision(numero, descripcion, codigoF));
-				
+				//System.out.println(i+" "+numero+" "+descripcion+" "+codigoF);
 			}
-			return A;			
+			
+			//System.out.println("--------------");
+			return A;
+			
 		}catch(PersistenciaException e){
 			throw new PersistenciaException(e.getMensaje());
 		}
+		
 	}
 
 	@Override
 	public void borrarRevisiones(IConexion iCon) throws PersistenciaException {
-		File file = new File("folio" + codFolio);
+		File file = new File("src/archivos/revisiones/"+"revisiones" + codFolio);
 		if(file.exists())
 			file.delete();
 	}

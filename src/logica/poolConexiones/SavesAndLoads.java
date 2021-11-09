@@ -20,6 +20,7 @@ import logica.Revision;
 import logica.excepciones.PersistenciaException;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
+import logica.valueObjects.VORevision;
 
 public class SavesAndLoads implements Serializable {
 	
@@ -31,7 +32,7 @@ public class SavesAndLoads implements Serializable {
 	{
 		try {
 			//Writer output = null;
-			FileOutputStream f = new FileOutputStream("src/archivos/folios/"+"folio" + nomArch, true);
+			FileOutputStream f = new FileOutputStream("src/archivos/folios/"+"folio" + nomArch);
 			//File f = new File ("C:/Users/Alvaro/Google Drive/Estudios/Ingeniería/UDE/6 - Sexto Semestre/Bases de Datos III/Obligatorio/ObligatorioBDIII/src/archivos/","folio" + nomArch);
 			ObjectOutputStream o = new ObjectOutputStream(f);
 			//output = new BufferedWriter(new FileWriter(f));"C:/Users/Alvaro/Google Drive/Estudios/Ingeniería/UDE/6 - Sexto Semestre/Bases de Datos III/Obligatorio/ObligatorioBDIII/src/archivos/"
@@ -48,13 +49,14 @@ public class SavesAndLoads implements Serializable {
 	}
 	public void SaveTodasRevisiones(ArrayList<Revision> T, String codF) throws PersistenciaException
 	{
+		//System.out.println("--SaveTodasRevisiones--");
 		try {
-				FileOutputStream f = new FileOutputStream("src/archivos/revisiones/"+"revisiones"+codF, true);
+				FileOutputStream f = new FileOutputStream("src/archivos/revisiones/"+"revisiones"+codF);
 				ObjectOutputStream o = new ObjectOutputStream(f);
 				o.writeObject (T);
 				o.close();
 				f.close();
-			
+				//System.out.println("-------------------------");
 		}catch(IOException e) {
 			e.printStackTrace();
 			throw new PersistenciaException("Error al Guardar");
@@ -79,6 +81,7 @@ public class SavesAndLoads implements Serializable {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Revision> LoadRevisiones(String codf)throws PersistenciaException
 	{ 
+		//System.out.println("--LoadRevisiones--");
 		try
 			{
 				FileInputStream f = new FileInputStream("src/archivos/revisiones/"+"revisiones" + codf);
@@ -86,6 +89,7 @@ public class SavesAndLoads implements Serializable {
 				ArrayList<Revision> arre = (ArrayList<Revision>) o.readObject();
 				o.close();
 				f.close();
+				//System.out.println("--------------");
 				return arre;
 			}
 			catch (IOException | ClassNotFoundException e){

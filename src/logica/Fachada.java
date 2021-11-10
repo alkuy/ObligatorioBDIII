@@ -20,7 +20,6 @@ import logica.interfaces.IPoolConexiones;
 import logica.valueObjects.VOFolio;
 import logica.valueObjects.VOFolioMaxRev;
 import logica.valueObjects.VORevision;
-import persistencia.daos.DAORevisiones;
 
 public class Fachada extends UnicastRemoteObject implements IFachada
 {

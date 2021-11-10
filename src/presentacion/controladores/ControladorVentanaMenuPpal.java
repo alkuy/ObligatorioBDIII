@@ -20,14 +20,14 @@ public class ControladorVentanaMenuPpal {
 		private VentanaMenuPrincipal vent;
 		
 		public ControladorVentanaMenuPpal (VentanaMenuPrincipal v) throws PersistenciaException {
-			// Aquí me guardo la referencia a mi ventana y además hago el lookup para acceder remotamente a la fachada
+			// Aqui me guardo la referencia a mi ventana y ademas hago el lookup para acceder remotamente a la fachada
 			this.vent = v;
 			
 			try {
 				//Obtengo desde el archivo de configuracion los datos del puerto, nombre del objeto e IP
 				Properties p = new Properties();
 				String nomArch = "src/Config/Config.properties";
-				// Abro el archivo properties y leo los datos de configuración
+				// Abro el archivo properties y leo los datos de configuracion
 				p.load (new FileInputStream (nomArch));
 				String ip = p.getProperty("ipServer");
 				String puerto = p.getProperty("portServer");

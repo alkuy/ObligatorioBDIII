@@ -11,12 +11,12 @@ import javax.swing.JLabel;
 
 public class VentanaMenuPrincipal {
 
+	// Atributos
 	public JFrame frame;
-	private ControladorVentanaMenuPpal controlador;
 	
 	// Constructor
 	public VentanaMenuPrincipal() throws PersistenciaException{
-		controlador = new ControladorVentanaMenuPpal(this);
+		new ControladorVentanaMenuPpal(this);
 		initialize();
 	}
 

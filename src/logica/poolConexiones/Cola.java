@@ -23,25 +23,23 @@ public class Cola {
 	{
 		while (lista.isEmpty())
 		{
-			// espero hasta que la cola no esté vacía
+			// espero hasta que la cola no este vacia
 			try
 			{ 
 				this.wait(); 
 			}
 			catch (InterruptedException e)
 			{ 
-				// no hago nada }
+				// no hago nada
 			}
 		}	
-		// quito un carácter de la cola
+		// quito un caracter de la cola
 		return (Integer) lista.removeFirst();
 	}
 	
 	public synchronized void insertar (Integer num)
 	{
-		// inserto un valor en la cola y notifico a
-		// algún consumidor que esté bloqueado esperando
-		// que la cola no esté vacía
+		// inserto un valor en la cola y notifico a algun consumidor que este bloqueado esperando que la cola no este vacia
 		lista.add(num);
 		this.notify();
 	}

@@ -13,14 +13,12 @@ import logica.interfaces.FabricaAbstracta;
 import logica.interfaces.IConexion;
 import logica.interfaces.IDAORevisiones;
 import logica.valueObjects.VORevision;
-import persistencia.daos.DAORevisiones;
 
 public class Folio implements Serializable  {
 	
-	/**
-	 * 
-	 */
+	// Codigo autogenerado
 	private static final long serialVersionUID = 1L;
+	
 	// Atributos
 	private String codigo;
 	private String caratula;
@@ -28,6 +26,7 @@ public class Folio implements Serializable  {
 	private IDAORevisiones revisiones;
 	private FabricaAbstracta fabrica;
 	
+	// Constructor
 	public Folio (String cod, String car, int pag){
 		codigo = cod;
 		caratula = car;
@@ -62,7 +61,6 @@ public class Folio implements Serializable  {
 		{
 			e.printStackTrace();
 		}
-		//revisiones = null;//new DAORevisiones(cod);
 	}
 	
 	public String getCodigo() {

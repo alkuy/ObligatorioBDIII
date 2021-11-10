@@ -3,33 +3,29 @@ package persistencia.daos;
 import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import logica.Folio;
 import logica.Revision;
 import logica.excepciones.PersistenciaException;
 import logica.interfaces.IConexion;
 import logica.interfaces.IDAORevisiones;
 import logica.poolConexiones.SavesAndLoads;
-import logica.valueObjects.VOFolio;
 import logica.valueObjects.VORevision;
-import persistencia.consultas.ConsultasRevision;
 
 public class DAORevisionesArchivo implements IDAORevisiones, Serializable 
 {
-	/**
-	 * 
-	 */
+	// Codigo autogenerado
 	private static final long serialVersionUID = 1L;
+	
+	// Atributos
 	private String codFolio;
 	private SavesAndLoads SaL;
 	
+	// Constructor
 	public DAORevisionesArchivo(String codF){
 		codFolio = codF;
 		SaL = new SavesAndLoads();
 	}
 	
-	
-
+	// Metodo que chequea si existe determinado numero de revision en un folio
 	public boolean ExisteRevisionFolio(IConexion iCon, String codF, int numR) throws PersistenciaException 
 	{
 		try {
@@ -50,9 +46,11 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 			throw new PersistenciaException(e.getMensaje());
 		}
 	}
+	
+	// Metodo que inserta una revision al final de la lista de revisiones
 	public void insback(IConexion iCon, Revision rev) throws PersistenciaException 
 	{
-		/*cargas el arreglo de revisiones que tengan el mismo numero de folio y lo agregas al final*/
+		// cargas el arreglo de revisiones que tengan el mismo numero de folio y lo agregas al final
 		ArrayList<Revision> arre = null;
 		if(largo(iCon)>0)
 		{
@@ -69,6 +67,7 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 		SaL.SaveTodasRevisiones(arre, codFolio);		
 	}
 
+	// Metodo que devuelve el largo de la secuencia de revisiones
 	public int largo(IConexion iCon) throws PersistenciaException {
 		ArrayList<Revision> arre = null;
 		try
@@ -91,6 +90,7 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 		}
 	}
 
+	// Metodo para obtener el k-esimo elemento de la secuencia de revisiones
 	public Revision kesimo(IConexion iCon, int Numero) throws PersistenciaException {
 		int i=0;
 		boolean encontro = false;
@@ -110,9 +110,10 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 
 	}
 
+	// Metodo para obtener una lista con todas las revisiones
+	// Precondicion: Hay al menos 1 revision en el folio
 	public ArrayList<VORevision> listarRevisiones(IConexion iCon) throws PersistenciaException 
 	{
-		//System.out.println("--ListarRevisiones--");
 		int i=0;
 		ArrayList<VORevision> A = new ArrayList<VORevision>();
 		try{
@@ -122,10 +123,8 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 				String descripcion = arre.get(i).getDescripcion();
 				String codigoF = arre.get(i).getCodigoFolio();
 				A.add(new VORevision(numero, descripcion, codigoF));
-				//System.out.println(i+" "+numero+" "+descripcion+" "+codigoF);
 			}
 			
-			//System.out.println("--------------");
 			return A;
 			
 		}catch(PersistenciaException e){
@@ -134,6 +133,7 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 		
 	}
 
+	// Metodo para borrar todas las revisiones de la secuencia
 	@Override
 	public void borrarRevisiones(IConexion iCon) throws PersistenciaException {
 		File file = new File("src/archivos/revisiones/"+"revisiones" + codFolio);

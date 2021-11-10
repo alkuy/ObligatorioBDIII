@@ -1,64 +1,45 @@
 package logica.poolConexiones;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Reader;
 import java.io.Serializable;
-import java.io.Writer;
 import java.util.ArrayList;
-
 import logica.Folio;
 import logica.Revision;
 import logica.excepciones.PersistenciaException;
-import logica.valueObjects.VOFolio;
-import logica.valueObjects.VOFolioMaxRev;
-import logica.valueObjects.VORevision;
 
 public class SavesAndLoads implements Serializable {
 	
-	/**
-	 * 
-	 */
+	// Codigo autogenerado
 	private static final long serialVersionUID = 1L;
+	
 	public void SaveFolio(String nomArch, Folio T) throws PersistenciaException
 	{
 		try {
-			//Writer output = null;
 			FileOutputStream f = new FileOutputStream("src/archivos/folios/"+"folio" + nomArch);
-			//File f = new File ("C:/Users/Alvaro/Google Drive/Estudios/Ingeniería/UDE/6 - Sexto Semestre/Bases de Datos III/Obligatorio/ObligatorioBDIII/src/archivos/","folio" + nomArch);
 			ObjectOutputStream o = new ObjectOutputStream(f);
-			//output = new BufferedWriter(new FileWriter(f));"C:/Users/Alvaro/Google Drive/Estudios/Ingeniería/UDE/6 - Sexto Semestre/Bases de Datos III/Obligatorio/ObligatorioBDIII/src/archivos/"
 			o.writeObject (T);
 			o.close();
 			f.close();
-			//output.close();
 		}
 		catch(IOException e){
-			e.printStackTrace();
 			throw new PersistenciaException("Error al Guardar");
 		}
 		
 	}
 	public void SaveTodasRevisiones(ArrayList<Revision> T, String codF) throws PersistenciaException
 	{
-		//System.out.println("--SaveTodasRevisiones--");
 		try {
 				FileOutputStream f = new FileOutputStream("src/archivos/revisiones/"+"revisiones"+codF);
 				ObjectOutputStream o = new ObjectOutputStream(f);
 				o.writeObject (T);
 				o.close();
 				f.close();
-				//System.out.println("-------------------------");
 		}catch(IOException e) {
-			e.printStackTrace();
 			throw new PersistenciaException("Error al Guardar");
 		}
 	}
@@ -74,14 +55,12 @@ public class SavesAndLoads implements Serializable {
 				return V;
 			}
 			catch (IOException | ClassNotFoundException e){
-				e.printStackTrace();
 				throw new PersistenciaException("Error al Cargar");
 			}
 	}
 	@SuppressWarnings("unchecked")
 	public ArrayList<Revision> LoadRevisiones(String codf)throws PersistenciaException
 	{ 
-		//System.out.println("--LoadRevisiones--");
 		try
 			{
 				FileInputStream f = new FileInputStream("src/archivos/revisiones/"+"revisiones" + codf);
@@ -89,11 +68,9 @@ public class SavesAndLoads implements Serializable {
 				ArrayList<Revision> arre = (ArrayList<Revision>) o.readObject();
 				o.close();
 				f.close();
-				//System.out.println("--------------");
 				return arre;
 			}
 			catch (IOException | ClassNotFoundException e){
-				e.printStackTrace();
 				throw new PersistenciaException("Error al Cargar");
 			}
 	}

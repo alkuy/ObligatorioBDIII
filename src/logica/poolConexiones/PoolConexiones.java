@@ -8,10 +8,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.concurrent.locks.Condition;
-
 import logica.interfaces.IConexion;
-import logica.interfaces.IFachada;
 import logica.interfaces.IPoolConexiones;
 
 public class PoolConexiones implements IPoolConexiones {
@@ -55,8 +52,8 @@ public class PoolConexiones implements IPoolConexiones {
 		}
 	}
 	
-	//Solicita una conexión al pool. En caso de que todas estén actualmente en
-	//uso, bloqueará al usuario hasta que otro usuario libere alguna.
+	//Solicita una conexion al pool. En caso de que todas estan actualmente en
+	//uso, bloqueara al usuario hasta que otro usuario libere alguna.
 	public IConexion obtenerConexion (boolean modifica) throws RemoteException
 	{
 
@@ -99,9 +96,7 @@ public class PoolConexiones implements IPoolConexiones {
 					
 				conect = new Conexion(con);
 				
-				creadas++; //Se aumenta el contador de conexiones creadas
-				//System.out.println("Creando conexion");
-				
+				creadas++; //Se aumenta el contador de conexiones creadas				
 			}
 			catch (SQLException e) 
 			{
@@ -117,24 +112,21 @@ public class PoolConexiones implements IPoolConexiones {
 				conect = Conexiones[tope-1];
 				tope--;
 				cola.quitar();
-				//System.out.println("Entrega conexion");
 		}
 		else	//Caso donde no quedan conexiones por crear o disponibles
 		{
-			//System.out.println("Espera conexion");
 			cola.quitar(); //Se envia la solicitud a la cola de espera
 			conect =  Conexiones[tope-1];//Cuando sale de la cola de espera es porque se agrego una conexion al arreglo con tope
 			tope--; //Se quita una conexion del arreglo
 			cola.quitar();//Se quita un lugar de la cola de espera
 			
 		}
-		//System.out.println("Datos - Tope: "+tope+" Creadas: "+creadas);
 		return conect;
 		
 	}
 	
-	//Devuelve una conexión al pool y avisa a posibles usuarios bloqueados. Si
-	//ok vale true, hará commit al devolverla, sino hará rollback.
+	//Devuelve una conexion al pool y avisa a posibles usuarios bloqueados. Si
+	//ok vale true, hara commit al devolverla, sino hara rollback.
 	public void liberarConexion (IConexion con, boolean ok) throws SQLException
 	{
 		if(ok)

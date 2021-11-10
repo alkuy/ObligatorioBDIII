@@ -1,34 +1,21 @@
 package logica.poolConexiones;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
-import java.util.concurrent.locks.Condition;
-
-import logica.excepciones.PersistenciaException;
 import logica.interfaces.IConexion;
 import logica.interfaces.IPoolConexiones;
-import logica.valueObjects.*;
-
-import java.util.concurrent.locks.Condition;
 
 public class PoolConexionesArchivo implements IPoolConexiones, Serializable{
-	/**
-	 * 
-	 */
+
+	// Codigo autogenerado
 	private static final long serialVersionUID = 1L;
+	
+	// Atributos
 	private MonitorPool monitor;
 	private boolean bandera = false;
 	
+	// Constructor
 	public PoolConexionesArchivo(){
 		monitor = MonitorPool.getInstancia(); //Instanciamos la cola de esperar para las solicitudes que deben esperar por una conexion
 	}

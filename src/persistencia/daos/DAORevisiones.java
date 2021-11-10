@@ -15,15 +15,15 @@ import java.util.ArrayList;
 
 public class DAORevisiones implements IDAORevisiones, Serializable{
 	
-	/**
-	 * 
-	 */
+	// Codigo autogenerado
 	private static final long serialVersionUID = 1L;
+	
 	// Atributos
 	private String codFolio;
 	private Revision revision;
 	private ConsultasRevision CR;
 	
+	// Constructor
 	public DAORevisiones(String codF){
 		codFolio = codF;
 	}
@@ -49,7 +49,7 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 			rs.close();
 			pstmt.close();
 		}catch(SQLException e){
-			throw new PersistenciaException("Ocurri� un error al intentar verificar la existencia de la revisi�n.");
+			throw new PersistenciaException("Ocurrio un error al intentar verificar la existencia de la revision.");
 		}
 		return resu;
 	}
@@ -68,7 +68,7 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 			pstmt.executeUpdate();
 			pstmt.close();
 		}catch (SQLException e){
-			throw new PersistenciaException("Ocurri� un error al insertar la revisi�n.");
+			throw new PersistenciaException("Ocurrio un error al insertar la revision.");
 		}
 	}
 	
@@ -91,8 +91,7 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 				cant++;
 			}
 		} catch (SQLException e) {
-			throw new PersistenciaException("Ocurri� un error al obtener la cantidad de revisiones.");
-			// e.printStackTrace();
+			throw new PersistenciaException("Ocurrio un error al obtener la cantidad de revisiones.");
 		}
 		return cant;
 	}
@@ -120,14 +119,13 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 			
 		} catch (SQLException e) {
 			throw new PersistenciaException("Ocurrio un error al obtener la revision.");
-			// e.printStackTrace();
 		}
 	
 		return revision;
 	}
 	
 	// Metodo para obtener una lista con todas las revisiones
-	// Precondici�n: Hay al menos 1 revision en el folio
+	// Precondicion: Hay al menos 1 revision en el folio
 	public ArrayList<VORevision> listarRevisiones (IConexion iCon) throws PersistenciaException { 
 		ArrayList<VORevision> lista = new ArrayList<VORevision>();
 
@@ -151,12 +149,10 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 			pstmt.close();
 		}catch(SQLException e)
 		{
-			//e.printStackTrace();
 			throw new PersistenciaException("Ocurrio un error al obtener las revisiones.");
 		}
 		return lista;
 	}
-	
 	
 	// Metodo para borrar todas las revisiones de la secuencia
 	public void borrarRevisiones (IConexion iCon) throws PersistenciaException {
@@ -169,8 +165,7 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 
 			pstmt.close();
 		}catch(SQLException e){
-			throw new PersistenciaException("Ocurri� un error al borrar las revisiones del folio.");
-			// e.printStackTrace();
+			throw new PersistenciaException("Ocurrio un error al borrar las revisiones del folio.");
 		}
 	}
 }

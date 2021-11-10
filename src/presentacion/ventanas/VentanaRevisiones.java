@@ -6,6 +6,9 @@ import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.swing.table.DefaultTableModel;
 import logica.excepciones.FolioException;
 import logica.excepciones.PersistenciaException;
@@ -14,17 +17,15 @@ import logica.valueObjects.VORevision;
 import presentacion.controladores.ControladorVentanaRevisiones;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.border.SoftBevelBorder;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import javax.swing.JRadioButton;
 
 public class VentanaRevisiones {
 
@@ -59,75 +60,93 @@ public class VentanaRevisiones {
 		
 		JPanel panelAgregarRevision = new JPanel();
 		panelAgregarRevision.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelAgregarRevision.setBounds(10, 11, 674, 147);
+		panelAgregarRevision.setBounds(10, 11, 674, 161);
 		frmRevisiones.getContentPane().add(panelAgregarRevision);
 		panelAgregarRevision.setLayout(null);
 		
 		JButton btnAgregar = new JButton("Agregar");
-		btnAgregar.setBounds(288, 28, 138, 23);
+		btnAgregar.setBounds(138, 127, 138, 23);
 		panelAgregarRevision.add(btnAgregar);
+		btnAgregar.setVisible(false);
 		
 		JLabel lblCodF = new JLabel("C\u00F3digo de Folio:");
-		lblCodF.setBounds(10, 16, 108, 14);
+		lblCodF.setBounds(30, 19, 108, 14);
 		panelAgregarRevision.add(lblCodF);
-		
-		JLabel lblDescrip = new JLabel("Descripci\u00F3n:");
-		lblDescrip.setBounds(10, 50, 108, 14);
-		panelAgregarRevision.add(lblDescrip);
 		
 		txtCodF = new JTextField();
 		txtCodF.setColumns(10);
-		txtCodF.setBounds(118, 13, 107, 20);
+		txtCodF.setBounds(138, 16, 107, 20);
 		panelAgregarRevision.add(txtCodF);
 		
 		txtDescrip = new JTextField();
 		txtDescrip.setColumns(10);
-		txtDescrip.setBounds(118, 47, 107, 20);
+		txtDescrip.setBounds(138, 68, 107, 20);
 		panelAgregarRevision.add(txtDescrip);
+		txtDescrip.setVisible(false);
 		
-		JLabel lblNumero = new JLabel("N\u00FAmero:");
-		lblNumero.setBounds(10, 88, 108, 14);
-		panelAgregarRevision.add(lblNumero);
+		JLabel lblNumeroODesc = new JLabel("");
+		lblNumeroODesc.setBounds(30, 71, 108, 14);
+		panelAgregarRevision.add(lblNumeroODesc);
 		
 		txtNumero = new JTextField();
-		txtNumero.setBounds(118, 85, 107, 20);
+		txtNumero.setBounds(138, 68, 107, 20);
 		panelAgregarRevision.add(txtNumero);
 		txtNumero.setColumns(10);
+		txtNumero.setVisible(false);
 		
-		JButton BtnDarDescrip = new JButton("Ver descripci\u00F3n");
-		BtnDarDescrip.setBounds(288, 84, 138, 23);
+		JButton BtnDarDescrip = new JButton("Ver descripcion");
+		BtnDarDescrip.setBounds(138, 127, 138, 23);
 		panelAgregarRevision.add(BtnDarDescrip);
-		
-		final JLabel lblDarDescrip = new JLabel("");
-		lblDarDescrip.setBounds(443, 82, 221, 23);
-		panelAgregarRevision.add(lblDarDescrip);
+		BtnDarDescrip.setVisible(false);
 		
 		final JLabel lblFaltaCod = new JLabel("");
 		lblFaltaCod.setForeground(Color.RED);
-		lblFaltaCod.setBounds(232, 16, 46, 14);
+		lblFaltaCod.setBounds(245, 19, 46, 14);
 		panelAgregarRevision.add(lblFaltaCod);
 		
 		final JLabel lblFaltaDesc = new JLabel("");
 		lblFaltaDesc.setForeground(Color.RED);
-		lblFaltaDesc.setBounds(232, 50, 46, 14);
+		lblFaltaDesc.setBounds(245, 74, 46, 14);
 		panelAgregarRevision.add(lblFaltaDesc);
 		
 		final JLabel lblFaltaNum = new JLabel("");
 		lblFaltaNum.setForeground(Color.RED);
-		lblFaltaNum.setBounds(232, 88, 46, 14);
+		lblFaltaNum.setBounds(245, 74, 46, 14);
 		panelAgregarRevision.add(lblFaltaNum);
 		
-		JLabel lblDescripcin = new JLabel("Descripci\u00F3n:");
-		lblDescripcin.setBounds(514, 57, 83, 14);
-		panelAgregarRevision.add(lblDescripcin);
+		JLabel lblDescripcion = new JLabel("Descripcion:");
+		lblDescripcion.setBounds(301, 71, 75, 14);
+		panelAgregarRevision.add(lblDescripcion);
+		lblDescripcion.setVisible(false);
+		
+		JRadioButton rdbAgregar = new JRadioButton("Agregar revision");
+		rdbAgregar.setBounds(297, 16, 131, 23);
+		panelAgregarRevision.add(rdbAgregar);
+		
+		JRadioButton rdbDesc = new JRadioButton("Ver descripcion");
+		rdbDesc.setBounds(430, 15, 146, 23);
+		panelAgregarRevision.add(rdbDesc);
+		
+		ButtonGroup G = new ButtonGroup();
+		G.add(rdbAgregar);	
+		G.add(rdbDesc);
+		
+		JPanel panelVerDescripcion = new JPanel();
+		panelVerDescripcion.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		panelVerDescripcion.setBounds(382, 65, 282, 63);
+		panelAgregarRevision.add(panelVerDescripcion);
+		panelVerDescripcion.setVisible(false);
+		
+		final JLabel lblDarDescrip = new JLabel("");
+		panelVerDescripcion.add(lblDarDescrip);
 		
 		JPanel panelListarRevisiones = new JPanel();
 		panelListarRevisiones.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		panelListarRevisiones.setBounds(10, 169, 674, 261);
+		panelListarRevisiones.setBounds(10, 183, 674, 247);
 		frmRevisiones.getContentPane().add(panelListarRevisiones);
 		panelListarRevisiones.setLayout(null);
 		
-		JLabel lblCodigo = new JLabel("C\u00F3digo: ");
+		JLabel lblCodigo = new JLabel("Codigo: ");
 		lblCodigo.setBounds(10, 14, 63, 14);
 		panelListarRevisiones.add(lblCodigo);
 		
@@ -137,12 +156,15 @@ public class VentanaRevisiones {
 		txtCodigoBuscar.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 46, 654, 204);
+		scrollPane.setBounds(10, 47, 654, 189);
 		panelListarRevisiones.add(scrollPane);
 
 		TablaRevisiones = new JTable();
 		TablaRevisiones = new JTable();
 		TablaRevisiones = new javax.swing.JTable(){
+			// Codigo autogenerado
+			private static final long serialVersionUID = 1L;
+
 			public boolean isCellEditable(int row, int column){
 				return false;
 				}
@@ -150,7 +172,7 @@ public class VentanaRevisiones {
 		TablaRevisiones.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]{},
             new String [] {
-                "N�mero", "C�digo de Folio", "Descripci�n"
+                "Numero", "Codigo de Folio", "Descripcion"
                 }
         ));
         scrollPane.setViewportView(TablaRevisiones);
@@ -164,6 +186,38 @@ public class VentanaRevisiones {
         lblFaltaCodListar.setBounds(235, 14, 46, 14);
         panelListarRevisiones.add(lblFaltaCodListar);
         
+        
+        // Se agregan las acciones de los radiobutton para la estetica
+        rdbAgregar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+	        	if (rdbAgregar.isSelected()) {
+	        		lblNumeroODesc.setText("Descripcion: ");
+	        		lblDescripcion.setVisible(false);
+	        		panelVerDescripcion.setVisible(false);
+	        		lblDarDescrip.setVisible(false);
+	        		txtDescrip.setVisible(true);
+	        		txtNumero.setVisible(false);
+	        		btnAgregar.setVisible(true);
+	        		BtnDarDescrip.setVisible(false);	 
+	        	}
+        	}
+        });
+        
+        rdbDesc.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+	        	if (rdbDesc.isSelected()) {
+	        		lblNumeroODesc.setText("Numero: ");
+	        		lblDescripcion.setVisible(true);
+	        		panelVerDescripcion.setVisible(true);
+	        		lblDarDescrip.setVisible(true);
+	        		txtDescrip.setVisible(false);
+	        		txtNumero.setVisible(true);
+	        		btnAgregar.setVisible(false);
+	        		BtnDarDescrip.setVisible(true);
+	        	}
+        	}
+        });
+        
         // Boton para listar todas las revisiones de un folio
         btnListar.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
@@ -173,13 +227,17 @@ public class VentanaRevisiones {
 					lblFaltaCodListar.setText("(*)");
 					lblFaltaDesc.setText("");
 					lblFaltaNum.setText("");
+					lblDarDescrip.setText("");
 					
+					// Si el codigo de folio esta vacio despliego este mensaje
+					JOptionPane.showMessageDialog(null, "Debe ingresar el codigo del folio antes de listar sus revisiones.");
         		}else {
 					// Dejo en blanco la marca de texto requerido
 					lblFaltaCod.setText("");
 					lblFaltaCodListar.setText("");
 					lblFaltaDesc.setText("");
 					lblFaltaNum.setText("");
+					lblDarDescrip.setText("");
 					
 					// Pongo los campos textos en blanco luego de ejecutar la accion del boton
 					txtCodF.setText("");
@@ -204,7 +262,7 @@ public class VentanaRevisiones {
 					lblFaltaNum.setText("");
 					
 					// Si los campos no estan cargados despliego este mensaje en pantalla
-					JOptionPane.showMessageDialog(null, "Debe cargar los campos requeridos antes de agregar una nueva revisi�n (*).");
+					JOptionPane.showMessageDialog(null, "Debe cargar los campos requeridos antes de agregar una nueva revision (*).");
 				}else{
 					// Dejo en blanco la marca de texto requerido
 					lblFaltaCod.setText("");
@@ -248,7 +306,7 @@ public class VentanaRevisiones {
 					lblFaltaNum.setText("(*)");
 					
 					// Si los campos no estan cargados despliego este mensaje en pantalla
-					JOptionPane.showMessageDialog(null, "Debe cargar los campos requeridos antes de obtener su descripci�n (*).");
+					JOptionPane.showMessageDialog(null, "Debe cargar los campos requeridos antes de obtener su descripcion (*).");
 				}else{
 					// Dejo en blanco la marca de texto requerido
 					lblFaltaCod.setText("");
@@ -258,26 +316,43 @@ public class VentanaRevisiones {
 					
 					String codF = txtCodF.getText();
 					String numR = txtNumero.getText();
-					int num =  Integer.parseInt(numR);
 					
-					try {
-						// Pongo los campos textos en blanco luego de ejecutar la accion del boton
-						txtCodF.setText("");
-						txtCodigoBuscar.setText("");
-						txtNumero.setText("");
-						txtDescrip.setText("");
-						
-						// Llamo a AgregarFolio con los datos obtenidos de la ventana
-						lblDarDescrip.setText(controlador.DarDescripcion(codF, num));
-						
-					} catch (RemoteException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage());
-					} catch (PersistenciaException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMensaje());
-					} catch (FolioException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMensaje());
-					} catch (RevisionException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMensaje());
+					// Chequeo que lo que se haya ingresado como numero de revision
+					if (numR.length() > 0){
+						Pattern pattern = Pattern.compile("^[0-9]+$", Pattern.CASE_INSENSITIVE);
+					    Matcher matcher = pattern.matcher(numR);
+					    boolean matchFound = matcher.find();
+					    
+					    if(matchFound){
+					    	// Si el numero de revision ingresado se encuentra entre 0 y 9 lo parseo a entero
+					    	int num =  Integer.parseInt(numR);
+					
+							try {
+								// Pongo los campos textos en blanco luego de ejecutar la accion del boton
+								txtCodF.setText("");
+								txtCodigoBuscar.setText("");
+								txtNumero.setText("");
+								txtDescrip.setText("");
+								
+								// Llamo a AgregarFolio con los datos obtenidos de la ventana
+								lblDarDescrip.setText(controlador.DarDescripcion(codF, num));
+								
+							} catch (RemoteException e1) {
+								JOptionPane.showMessageDialog(null, e1.getMessage());
+							} catch (PersistenciaException e1) {
+								JOptionPane.showMessageDialog(null, e1.getMensaje());
+							} catch (FolioException e1) {
+								JOptionPane.showMessageDialog(null, e1.getMensaje());
+							} catch (RevisionException e1) {
+								JOptionPane.showMessageDialog(null, e1.getMensaje());
+							}
+					    }else {
+							// Si el numero de revision no es valido despliego este mensaje
+							JOptionPane.showMessageDialog(null, "Debe ingresar un numero de revision valido para ver la descripcion del mismo.");
+					    }
+					}else{
+						// Si el numero de revision esta vacio despliego este mensaje
+						JOptionPane.showMessageDialog(null, "Debe ingresar un numero de revision para ver la descripcion del mismo.");
 					}
 				}
 			}

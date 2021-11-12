@@ -183,6 +183,10 @@ public class VentanaFolios {
 	        		lblFaltaCodigo.setVisible(true);
 					lblFaltaCaratula.setVisible(true);
 					lblFaltaPagina.setVisible(true);
+					
+	        		lblFaltaCodigo.setText("");
+					lblFaltaCaratula.setText("");
+					lblFaltaPagina.setText("");
 	        	}
         	}
         });
@@ -200,6 +204,10 @@ public class VentanaFolios {
 	        		lblFaltaCodigo.setVisible(true);
 					lblFaltaCaratula.setVisible(false);
 					lblFaltaPagina.setVisible(false);
+					
+	        		lblFaltaCodigo.setText("");
+					lblFaltaCaratula.setText("");
+					lblFaltaPagina.setText("");
 	        	}
         	}
         });
@@ -215,7 +223,11 @@ public class VentanaFolios {
 					lblFaltaCaratula.setText("(*)");
 					lblFaltaPagina.setText("(*)");
 					
-					
+					// Pongo visible la marca de que se requieren datos
+	        		lblFaltaCodigo.setVisible(true);
+					lblFaltaCaratula.setVisible(true);
+					lblFaltaPagina.setVisible(true);
+
 					// Si los campos no estan cargados despliego este mensaje en pantalla
 					JOptionPane.showMessageDialog(null, "Debe cargar todos los campos requeridos antes de agregar el folio (*).");
 				}else{
@@ -265,6 +277,11 @@ public class VentanaFolios {
 					lblFaltaCaratula.setText("");
 					lblFaltaPagina.setText("");
 					
+					// Pongo visible la marca de que se requieren datos
+	        		lblFaltaCodigo.setVisible(true);
+					lblFaltaCaratula.setVisible(true);
+					lblFaltaPagina.setVisible(true);
+					
 					// Si los campos no estan cargados despliego este mensaje en pantalla
 					JOptionPane.showMessageDialog(null, "Debe ingresar un codigo de folio antes borrarlo (*).");
 					
@@ -299,6 +316,11 @@ public class VentanaFolios {
 		// Boton para listar el folio mas revisado
 		btnMasRevisado.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Pongo invisible la marca de que se requieren datos
+        		lblFaltaCodigo.setVisible(false);
+				lblFaltaCaratula.setVisible(false);
+				lblFaltaPagina.setVisible(false);
+				
 				TablaListarFolioMasRevisado();
 			}
 		});
@@ -307,6 +329,11 @@ public class VentanaFolios {
 		// Boton para listar todos los folios
 		btnListarFolios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Pongo invisible la marca de que se requieren datos
+        		lblFaltaCodigo.setVisible(false);
+				lblFaltaCaratula.setVisible(false);
+				lblFaltaPagina.setVisible(false);
+				
 				TablaListarFolios();
 			}
 		});		
@@ -339,13 +366,10 @@ public class VentanaFolios {
 	        }
 	        
 		} catch (RemoteException e) {
-			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} catch (PersistenciaException e) {
-			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMensaje());
 		} catch (FolioException e) {
-			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getMensaje());
 		}
     }

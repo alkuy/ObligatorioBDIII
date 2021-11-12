@@ -49,7 +49,7 @@ public class ControladorVentanaRevisiones {
 			}
 		}
 				
-		public void AgregarRevision (String cod, String desc) throws PersistenciaException, RemoteException, RevisionException{
+		public void AgregarRevision (String cod, String desc) throws PersistenciaException, RemoteException, RevisionException, FolioException{
 			try{
 				this.fachada.AgregarRevision(cod, desc);
 				
@@ -62,6 +62,8 @@ public class ControladorVentanaRevisiones {
 				throw new RemoteException(e.getMessage());
 			} catch (RevisionException e) {
 				throw new RevisionException(e.getMensaje());
+			} catch (FolioException e) {
+				throw new FolioException(e.getMensaje());
 			}
 		}
 		

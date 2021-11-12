@@ -101,7 +101,6 @@ public class ControladorVentanaFolios {
 		}catch(RemoteException e) {
 			throw new RemoteException(e.getMessage());
 		} catch (FolioException e) {
-			e.printStackTrace();
 			throw new FolioException(e.getMensaje());
 		}
 		return lista;

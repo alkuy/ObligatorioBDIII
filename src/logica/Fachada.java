@@ -100,7 +100,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 	}
 	
 	// agrega una nueva revisión a un folio del sistema, chequeando que el folio que le corresponde esté registrado
-	public void AgregarRevision(String codF, String desc) throws RemoteException, PersistenciaException, RevisionException{
+	public void AgregarRevision(String codF, String desc) throws RemoteException, PersistenciaException, RevisionException, FolioException{
 		IConexion iCon = null;
 		try 
 		{
@@ -109,18 +109,25 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 			// Chequeamos que exista el folio
 			Folio Fol = daoF.find(iCon, codF);
 			
-			// Si existe el folio, se le agrega la revision
-			if (Fol.getCodigo() != null) 
+			if(Fol != null) 
 			{
-				int num = daoF.find(iCon, codF).cantidadRevisiones(iCon);
-				Revision rev = new Revision(num+1, codF, desc);
-				daoF.find(iCon, codF).addRevision(iCon,rev);
-				iPool.liberarConexion(iCon, true);
-			} 
-			else 
+				// Si existe el folio, se le agrega la revision
+				if (Fol.getCodigo() != null) 
+				{
+					int num = daoF.find(iCon, codF).cantidadRevisiones(iCon);
+					Revision rev = new Revision(num+1, codF, desc);
+					daoF.find(iCon, codF).addRevision(iCon,rev);
+					iPool.liberarConexion(iCon, true);
+				} 
+				else 
+				{
+					iPool.liberarConexion(iCon, false);
+					throw new RevisionException("No existe un folio con ese codigo.");
+				}
+			}
+			else
 			{
-				iPool.liberarConexion(iCon, false);
-				throw new RevisionException("No existe un folio con ese codigo.");
+				throw new FolioException ("No existe un folio con ese codigo");
 			}
 		}
 		catch (SQLException e) 
@@ -129,7 +136,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 		}
 	}
 	
-	// elimina del sistema al folio con el código ingresado, y también elimina todas sus revisiones, chequeando que el folio con ese código esté registrado
+	// elimina del sistema al folio con el codigo ingresado, y tambien elimina todas sus revisiones, chequeando que el folio con ese codigo este registrado
 	public void BorrarFolioRevisiones(String codF) throws RemoteException, PersistenciaException, RevisionException{
 		
 		IConexion iCon = null;

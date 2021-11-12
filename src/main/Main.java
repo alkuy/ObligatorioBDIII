@@ -44,11 +44,11 @@ public class Main {
 		// Manejar estas excepciones de manera personalizada
 		catch (FileNotFoundException e) 
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ocurrio un error no especificado, contacte con el administrador.");
 		} 
 		catch (IOException e) 
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, "Ocurrio un error no especificado, contacte con el administrador.");
 		}
 
 	}

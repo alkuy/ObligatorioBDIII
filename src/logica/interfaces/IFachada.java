@@ -16,7 +16,7 @@ public interface IFachada extends Remote{
 	
 	public void AgregarFolio(VOFolio vof) throws RemoteException, PersistenciaException, FolioException;
 	
-	public void AgregarRevision(String codF, String desc) throws RemoteException, PersistenciaException, RevisionException;
+	public void AgregarRevision(String codF, String desc) throws RemoteException, PersistenciaException, RevisionException, FolioException;
 	
 	public void BorrarFolioRevisiones(String cod) throws RemoteException, PersistenciaException, RevisionException;
 	

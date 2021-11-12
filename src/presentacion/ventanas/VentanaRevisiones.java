@@ -198,7 +198,20 @@ public class VentanaRevisiones {
 	        		txtDescrip.setVisible(true);
 	        		txtNumero.setVisible(false);
 	        		btnAgregar.setVisible(true);
-	        		BtnDarDescrip.setVisible(false);	 
+	        		BtnDarDescrip.setVisible(false);	
+	        		
+	        		lblFaltaCod.setVisible(true);
+	        		lblFaltaDesc.setVisible(true);
+	        		lblFaltaNum.setVisible(false);
+	        		
+	        		lblFaltaCod.setText("");
+	        		lblFaltaDesc.setText("");
+	        		lblFaltaNum.setText("");
+	        		lblDarDescrip.setText("");
+	        		
+	        		txtCodF.setText("");
+	        		txtDescrip.setText("");
+	        		txtNumero.setText("");
 	        	}
         	}
         });
@@ -214,6 +227,18 @@ public class VentanaRevisiones {
 	        		txtNumero.setVisible(true);
 	        		btnAgregar.setVisible(false);
 	        		BtnDarDescrip.setVisible(true);
+	        		
+	        		lblFaltaCod.setVisible(true);
+	        		lblFaltaDesc.setVisible(false);
+	        		lblFaltaNum.setVisible(true);
+	        		
+	        		lblFaltaCod.setText("");
+	        		lblFaltaDesc.setText("");
+	        		lblFaltaNum.setText("");
+	        		
+	        		txtCodF.setText("");
+	        		txtDescrip.setText("");
+	        		txtNumero.setText("");
 	        	}
         	}
         });
@@ -221,6 +246,9 @@ public class VentanaRevisiones {
         // Boton para listar todas las revisiones de un folio
         btnListar.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
+        		lblDescripcion.setVisible(false);
+        		panelVerDescripcion.setVisible(false);
+        		
         		if(txtCodigoBuscar.getText().isEmpty()) {
 					// Muestro una marca de texto requerido en rojo sobre el campo que falta ser cargado
 					lblFaltaCod.setText("");
@@ -289,6 +317,8 @@ public class VentanaRevisiones {
 						JOptionPane.showMessageDialog(null, e1.getMensaje());
 					} catch (RevisionException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMensaje());
+					} catch (FolioException e1) {
+						JOptionPane.showMessageDialog(null, e1.getMensaje());
 					}
 				}
 			}
@@ -329,9 +359,9 @@ public class VentanaRevisiones {
 					
 							try {
 								// Pongo los campos textos en blanco luego de ejecutar la accion del boton
-								txtCodF.setText("");
+								//txtCodF.setText("");
 								txtCodigoBuscar.setText("");
-								txtNumero.setText("");
+								//txtNumero.setText("");
 								txtDescrip.setText("");
 								
 								// Llamo a AgregarFolio con los datos obtenidos de la ventana

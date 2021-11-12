@@ -41,7 +41,7 @@ public class DAOFolios implements IDAOFolios{
 			while (rs.next()) 
 			{
 				
-				if(codF.equals(rs.getString("codigo"))) 
+				if(codF.equalsIgnoreCase(rs.getString("codigo"))) 
 				{
 					resu=true;
 				}
@@ -50,7 +50,7 @@ public class DAOFolios implements IDAOFolios{
 			rs.close();
 			pstmt.close();
 		}catch(SQLException e){
-			e.printStackTrace();
+			throw new PersistenciaException("Ocurrio un error al acceder a la base de datos.");
 		}
 		return resu;
 	}
@@ -94,7 +94,7 @@ public class DAOFolios implements IDAOFolios{
 			rs.close();
 			pstmt.close();
 		}catch(SQLException e){
-			
+			throw new PersistenciaException(e.getMessage());
 		}
 		return fol;
 	}

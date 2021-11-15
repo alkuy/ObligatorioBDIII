@@ -10,9 +10,7 @@ import logica.valueObjects.VORevision;
 
 
 public interface IDAORevisiones extends Remote {
-	
-	public boolean ExisteRevisionFolio (IConexion iCon, String codF, int numR)  throws PersistenciaException;
-	
+		
 	public void insback (IConexion iCon, Revision rev) throws PersistenciaException;
 	
 	public int largo (IConexion iCon) throws PersistenciaException;

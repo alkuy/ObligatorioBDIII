@@ -77,7 +77,18 @@ public class Folio implements Serializable  {
 	
 	public boolean tieneRevision(IConexion iCon, int numR) throws SQLException, PersistenciaException
 	{
-		return revisiones.ExisteRevisionFolio(iCon, codigo, numR);
+		boolean existe = false;
+		
+		
+		if (revisiones.largo(iCon) > 0)
+		{
+			Revision rev = revisiones.kesimo(iCon, numR);
+			if (rev != null)
+				existe = true;
+		}
+			
+		
+		return existe;
 	}
 	
 	public int cantidadRevisiones (IConexion iCon) throws PersistenciaException
@@ -105,8 +116,4 @@ public class Folio implements Serializable  {
 		revisiones.borrarRevisiones(iCon);
 	}
 	
-	public int NumeroUltimaRevision(IConexion iCon) throws PersistenciaException
-	{
-		return revisiones.largo(iCon);
-	}
 }

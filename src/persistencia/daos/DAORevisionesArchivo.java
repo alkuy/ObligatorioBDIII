@@ -25,27 +25,6 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 		SaL = new SavesAndLoads();
 	}
 	
-	// Metodo que chequea si existe determinado numero de revision en un folio
-	public boolean ExisteRevisionFolio(IConexion iCon, String codF, int numR) throws PersistenciaException 
-	{
-		try {
-				ArrayList<Revision> arre = SaL.LoadRevisiones(codF);
-				int i = 0;
-				boolean encontro = false;
-				while(i<arre.size() && !encontro) 
-				{
-					if(arre.get(i).getNumero() == numR)
-						encontro = true;
-					i++;
-				}
-				
-				return encontro;
-		}
-		catch(PersistenciaException e)
-		{
-			throw new PersistenciaException(e.getMensaje());
-		}
-	}
 	
 	// Metodo que inserta una revision al final de la lista de revisiones
 	public void insback(IConexion iCon, Revision rev) throws PersistenciaException 
@@ -94,19 +73,26 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 	public Revision kesimo(IConexion iCon, int Numero) throws PersistenciaException {
 		int i=0;
 		boolean encontro = false;
+		ArrayList<Revision> arre = null;
 		try{
-			ArrayList<Revision> arre = SaL.LoadRevisiones(codFolio);
+			arre = SaL.LoadRevisiones(codFolio);
 			while(i<arre.size() && !encontro) {
 				if(Numero == arre.get(i).getNumero())
 					encontro = true;
 				else
 					i++;
 			}
-			return arre.get(i);
 			
-		}catch(PersistenciaException e){
+		}
+		catch(PersistenciaException e)
+		{
 			throw new PersistenciaException(e.getMensaje());
 		}
+		
+		if (arre.size() >= Numero)
+			return arre.get(i);
+		else
+			return null;
 
 	}
 
@@ -121,7 +107,7 @@ public class DAORevisionesArchivo implements IDAORevisiones, Serializable
 			for(i=0; i<arre.size(); i++) {
 				int numero = arre.get(i).getNumero();
 				String descripcion = arre.get(i).getDescripcion();
-				String codigoF = arre.get(i).getCodigoFolio();
+				String codigoF = codFolio;
 				A.add(new VORevision(numero, descripcion, codigoF));
 			}
 			

@@ -115,7 +115,7 @@ public class Fachada extends UnicastRemoteObject implements IFachada
 				if (Fol.getCodigo() != null) 
 				{
 					int num = daoF.find(iCon, codF).cantidadRevisiones(iCon);
-					Revision rev = new Revision(num+1, codF, desc);
+					Revision rev = new Revision(num+1, desc);
 					daoF.find(iCon, codF).addRevision(iCon,rev);
 					iPool.liberarConexion(iCon, true);
 				} 

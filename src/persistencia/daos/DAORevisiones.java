@@ -20,7 +20,7 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 	
 	// Atributos
 	private String codFolio;
-	private Revision revision;
+	private Revision revision = null;
 	private ConsultasRevision CR;
 	
 	// Constructor
@@ -28,31 +28,6 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 		codFolio = codF;
 	}
 	
-	// Metodo que permite recibir un numero de revision y verificar si existe en la secuencia
-	public boolean ExisteRevisionFolio (IConexion iCon, String codF, int numR)  throws PersistenciaException {
-		boolean resu = false;
-		
-		try {
-			CR = new ConsultasRevision();
-			String select = CR.DarDescripcion();
-			PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(select);
-			
-			pstmt.setInt(1, numR);
-			pstmt.setString(2, codF);
-			
-			ResultSet rs = pstmt.executeQuery();
-			
-			if (rs.next()) {
-				resu = true;
-			}
-	
-			rs.close();
-			pstmt.close();
-		}catch(SQLException e){
-			throw new PersistenciaException("Ocurrio un error al intentar verificar la existencia de la revision.");
-		}
-		return resu;
-	}
 	
 	// Metodo para insertar una revision al final de la secuencia de revisiones
 	public void insback (IConexion iCon, Revision rev) throws PersistenciaException {		
@@ -62,7 +37,7 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 			PreparedStatement pstmt = ((Conexion) iCon).getConnection().prepareStatement(insert);
 			
 			pstmt.setInt(1, rev.getNumero());
-			pstmt.setString(2, rev.getCodigoFolio());
+			pstmt.setString(2, codFolio);
 			pstmt.setString(3, rev.getDescripcion());
 			
 			pstmt.executeUpdate();
@@ -115,7 +90,8 @@ public class DAORevisiones implements IDAORevisiones, Serializable{
 			}
 			
 			// Armo el objeto revision con la descripcion obtenida, el numero por parametro y el codigo de folio de la clase
-			revision = new Revision(Numero, codFolio, desc);
+			if(desc != null)
+				revision = new Revision(Numero, desc);
 			
 		} catch (SQLException e) {
 			throw new PersistenciaException("Ocurrio un error al obtener la revision.");
